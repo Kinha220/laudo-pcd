@@ -3,21 +3,25 @@ from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 
-st.title("🧪 Teste de preenchimento dos campos do PDF")
+st.title("📄 Gerador de Laudo PCD")
+
+# FORMULÁRIO
+servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
+cnpj = st.text_input("CNPJ")
+data = st.text_input("Data")
 
 nome = st.text_input("Nome")
 cpf = st.text_input("CPF")
 
-if st.button("Gerar PDF teste"):
+if st.button("Gerar PDF"):
 
     reader = PdfReader("Anexo Unico.pdf")
     writer = PdfWriter()
 
-    # Copia todas as páginas
     for page in reader.pages:
         writer.add_page(page)
 
-    # Copia o formulário interno do PDF
+    # Mantém os campos do PDF
     if "/AcroForm" in reader.trailer["/Root"]:
         writer._root_object.update({
             NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
@@ -27,11 +31,11 @@ if st.button("Gerar PDF teste"):
         })
 
     campos = {
-        "Text7": nome,
-        "Text8": cpf,
-        "Text9": "TESTE CAMPO 9",
-        "Text10": "TESTE CAMPO 10",
-        "Text11": "TESTE CAMPO 11"
+        "Text7": servico_medico,
+        "Text8": cnpj,
+        "Text9": data,
+        "Text10": nome,
+        "Text11": cpf
     }
 
     for i in range(len(writer.pages)):
@@ -41,11 +45,11 @@ if st.button("Gerar PDF teste"):
     writer.write(output)
     output.seek(0)
 
-    st.success("PDF gerado!")
+    st.success("PDF gerado com sucesso!")
 
     st.download_button(
-        "📥 Baixar PDF teste",
-        data=output,
-        file_name="teste_campos.pdf",
-        mime="application/pdf"
+        "📥 Baixar PDF",
+        output,
+        "laudo_pcd.pdf",
+        "application/pdf"
     )
