@@ -1,20 +1,37 @@
 import streamlit as st
-from pypdf import PdfReader
+from pypdf import PdfReader, PdfWriter
+from io import BytesIO
 
-st.title("🔎 Leitor de campos do PDF")
+st.title("Teste de campos do PDF")
 
-arquivo = st.selectbox(
-    "Escolha o PDF",
-    ["Anexo Unico.pdf", "Anexo III - PCAT 18-2013.pdf"]
-)
+nome = st.text_input("Nome")
+cpf = st.text_input("CPF")
 
-reader = PdfReader(arquivo)
-fields = reader.get_fields()
+if st.button("Testar preenchimento"):
 
-if fields:
-    st.success(f"Foram encontrados {len(fields)} campos editáveis.")
+    reader = PdfReader("Anexo Unico.pdf")
+    writer = PdfWriter()
 
-    for nome_campo, info in fields.items():
-        st.write("📌", nome_campo)
-else:
-    st.error("Esse PDF não possui campos editáveis detectáveis pelo Python.")
+    writer.append_pages_from_reader(reader)
+
+    # TESTE EM ALGUNS CAMPOS
+    writer.update_page_form_field_values(
+        writer.pages[0],
+        {
+            "Text7": nome,
+            "Text8": cpf,
+            "Text9": "TESTE",
+            "Text10": "TESTE 2"
+        }
+    )
+
+    output = BytesIO()
+    writer.write(output)
+    output.seek(0)
+
+    st.download_button(
+        "Baixar PDF teste",
+        output,
+        "teste_campos.pdf",
+        "application/pdf"
+    )
