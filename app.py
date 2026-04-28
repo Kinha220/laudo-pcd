@@ -18,11 +18,34 @@ if st.button("Gerar PDF"):
     c = canvas.Canvas(packet)
 
     # POSIÇÕES (vamos ajustar depois certinho)
-    c.drawString(100, 700, f"Nome: {nome}")
-    c.drawString(100, 680, f"CPF: {cpf}")
-    c.drawString(100, 660, f"Data: {data}")
-    c.drawString(100, 640, f"CID: {cid}")
-    c.drawString(100, 620, f"Descrição: {descricao}")
+c.setFont("Helvetica", 9)
+
+# Serviço Médico / Unidade de Saúde
+c.drawString(35, 580, servico_medico)
+
+# CNPJ
+c.drawString(400, 580, cnpj)
+
+# Data
+c.drawString(35, 538, data)
+
+# Nome do requerente
+c.drawString(35, 392, nome)
+
+# CPF
+c.drawString(400, 392, cpf)
+
+# CID Deficiência Física
+c.drawString(300, 300, cid)
+
+# Descrição detalhada
+text = c.beginText(35, 205)
+text.setFont("Helvetica", 9)
+
+for linha in descricao.split("\n"):
+    text.textLine(linha)
+
+c.drawText(text)
 
     c.save()
     packet.seek(0)
