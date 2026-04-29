@@ -148,7 +148,7 @@ if st.button("Gerar PDF"):
         "Text23": especialidade,
         "Text25": unidade,
         "Text26": cnpj_unidade,
-        "Text29": Unidade Emissora do Laudo,
+        "Text29": Unidade_Emissora_do_Laudo,
         "Text30": CNPJ,
         "Text31": responsavel,
         "Text32": cpf_responsavel,
