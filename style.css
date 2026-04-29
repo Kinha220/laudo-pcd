@@ -1,7 +1,7 @@
 /* ===== BASE ===== */
 .block-container { 
     max-width: 980px; 
-    padding-top: 20px; /* 🔥 espaço para o header fixo */ } /* ===== HEADER FIXO ===== */ 
+    padding-top: 50px; /* 🔥 espaço para o header fixo */ } /* ===== HEADER FIXO ===== */ 
 .app-header { 
     position: fixed; 
     top: 10px; 
