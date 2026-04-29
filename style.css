@@ -27,7 +27,7 @@
 .app-subtitle {
     color: #cbd5e1;
     font-size: 13px;
-
+    top: 10px; 
     margin: 0; /* 🔥 remove espaço extra */
     line-height: 1.2;
 }
