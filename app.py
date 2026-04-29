@@ -34,8 +34,6 @@ st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
 check_login()
 
-st.title("📄 Gerador de Laudo PCD")
-
 st.markdown("""
 <div class="app-header">
     <div class="app-title">📄 Gerador de Laudo PCD</div>
