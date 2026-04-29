@@ -152,18 +152,27 @@ if st.button("Gerar PDF"):
 
         # Página 2
         "Text15": nome_medico,
-        "Text16": responsavel_servico,
+        "Text16": nome_medico,  # assinatura do médico (repete)        
+        "Text17": responsavel_servico,
+        "Text18": responsavel_servico,  # assinatura do responsável        
+        # Declaração (ESSA É A PARTE QUE FALTAVA)
         "Text19": nome,
         "Text20": cpf,
 
         # Página 3
-        "Text24": especialidade,
-         "Text25": "",
-        "Text26": "",        
-        "Text27": unidade,
-        "Text28": cnpj_unidade,        
-        "Text29": responsavel,
-        "Text30": cpf_responsavel,        
+        # "Text24": especialidade,
+        # "Text25": "",
+        # "Text26": "",        
+        # "Text27": unidade,
+        # "Text28": cnpj_unidade,        
+        # "Text29": responsavel,
+        # "Text30": cpf_responsavel,        
+        # "Text31": responsavel,
+        # "Text32": cpf_responsavel,
+        # Página 3 (correto de verdade)
+        "Text23": especialidade,        
+        "Text25": unidade,
+        "Text26": cnpj_unidade,        
         "Text31": responsavel,
         "Text32": cpf_responsavel,
 
