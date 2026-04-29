@@ -10,7 +10,25 @@ from datetime import datetime
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
 st.title("📄 Gerador de Laudo PCD - Anexo Único")
+st.markdown(
+    """
+    <script>
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const inputs = Array.from(document.querySelectorAll('input'));
+            const active = document.activeElement;
+            const index = inputs.indexOf(active);
 
+            if (index > -1 && index < inputs.length - 1) {
+                e.preventDefault();
+                inputs[index + 1].focus();
+            }
+        }
+    });
+    </script>
+    """,
+    unsafe_allow_html=True
+)
 
 # ========================
 # FUNÇÕES
