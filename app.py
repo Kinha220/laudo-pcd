@@ -7,6 +7,10 @@ from reportlab.lib.pagesizes import A4
 import re
 from datetime import datetime
 
+def carregar_css():
+    with open("style.css") as f:
+        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+        
 def check_login():
     if "logado" not in st.session_state:
         st.session_state.logado = False
@@ -24,6 +28,8 @@ def check_login():
 
         st.stop()
         
+carregar_css()
+
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
 check_login()
