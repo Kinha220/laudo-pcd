@@ -167,7 +167,7 @@ if st.button("Gerar PDF"):
         "Text25": nome_medico,
         "Text26": cpf_medico,        
         "Text27": especialidade,
-        "Text28": Assinatura,        
+        "Text28": assinatura_medico,        
         "Text29": unidade,
         "Text30": cnpj_unidade,        
         "Text31": responsavel,
