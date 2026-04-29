@@ -205,7 +205,6 @@ data = st.text_input(
 tipo_servico = st.selectbox(
     "Serviço médico prestado por:",
     [
-        "",
         "pelo Departamento de Trânsito (Detran)",
         "por setor privado credenciado pelo Detran",
         "pelo serviço público de saúde",
