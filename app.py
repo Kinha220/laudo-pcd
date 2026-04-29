@@ -96,6 +96,7 @@ unidade = st.text_input("Unidade Emissora do Laudo", value=servico_medico)
 cnpj_unidade = st.text_input("CNPJ da Unidade", value=cnpj)
 responsavel = st.text_input("Responsável pela Unidade")
 cpf_responsavel = st.text_input("CPF do Responsável")
+assinatura_responsavel = st.text_input("Assinatura Responsável")
 
 
 def check(valor):
@@ -154,7 +155,7 @@ if st.button("Gerar PDF"):
         "Text15": nome_medico,
         "Text16": assinatura_medico,
         "Text17": responsavel_servico,
-        "Text18": cpf_responsavel,
+        "Text18": assinatura_responsavel,
         "Text19": nome_requerente,
         "Text20": cpf_requerente,
         # DECLARAÇÃO 
