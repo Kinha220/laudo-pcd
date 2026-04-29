@@ -4,8 +4,8 @@ from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from datetime import datetime
 import re
+from datetime import datetime
 
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
@@ -59,38 +59,6 @@ def formatar_data(valor):
         return f"{v[:2]}/{v[2:4]}/{v[4:]}"
 
 
-def atualizar_cpf(campo):
-    st.session_state[campo] = formatar_cpf(st.session_state[campo])
-
-
-def atualizar_cnpj(campo):
-    st.session_state[campo] = formatar_cnpj(st.session_state[campo])
-
-
-def atualizar_data(campo):
-    st.session_state[campo] = formatar_data(st.session_state[campo])
-
-
-def check(valor):
-    return "/Sim" if valor else "/Off"
-
-
-def marcar_carater_visual(writer, carater):
-    packet = BytesIO()
-    c = canvas.Canvas(packet, pagesize=A4)
-    c.setFont("Helvetica-Bold", 12)
-
-    if carater == "Provisória":
-        c.circle(280, 280, 5, fill=1)
-    else:
-        c.circle(420, 280, 5, fill=1)
-
-    c.save()
-    packet.seek(0)
-
-    overlay = PdfReader(packet)
-    writer.pages[0].merge_page(overlay.pages[0])
-
 def validar_cpf(cpf):
     cpf = somente_numeros(cpf)
 
@@ -134,7 +102,41 @@ def validar_data(data):
         return True
     except ValueError:
         return False
-        
+
+
+def atualizar_cpf(campo):
+    st.session_state[campo] = formatar_cpf(st.session_state[campo])
+
+
+def atualizar_cnpj(campo):
+    st.session_state[campo] = formatar_cnpj(st.session_state[campo])
+
+
+def atualizar_data(campo):
+    st.session_state[campo] = formatar_data(st.session_state[campo])
+
+
+def check(valor):
+    return "/Sim" if valor else "/Off"
+
+
+def marcar_carater_visual(writer, carater):
+    packet = BytesIO()
+    c = canvas.Canvas(packet, pagesize=A4)
+    c.setFont("Helvetica-Bold", 12)
+
+    if carater == "Provisória":
+        c.circle(280, 280, 5, fill=1)
+    else:
+        c.circle(420, 280, 5, fill=1)
+
+    c.save()
+    packet.seek(0)
+
+    overlay = PdfReader(packet)
+    writer.pages[0].merge_page(overlay.pages[0])
+
+
 # ========================
 # FORMULÁRIO
 # ========================
@@ -271,7 +273,14 @@ cpf_responsavel_unidade = st.text_input(
     args=("cpf_responsavel_unidade",)
 )
 
-erros = []
+
+# ========================
+# GERAR PDF
+# ========================
+
+if st.button("Gerar PDF"):
+
+    erros = []
 
     if not validar_cnpj(cnpj):
         erros.append("CNPJ principal inválido.")
@@ -289,18 +298,12 @@ erros = []
         erros.append("CNPJ da unidade inválido.")
 
     if cpf_responsavel_unidade and not validar_cpf(cpf_responsavel_unidade):
-        erros.append("CPF do responsável inválido.")
+        erros.append("CPF do responsável pela unidade inválido.")
 
     if erros:
         for erro in erros:
             st.error(erro)
         st.stop()
-
-# ========================
-# GERAR PDF
-# ========================
-
-if st.button("Gerar PDF"):
 
     reader = PdfReader("Anexo Unico.pdf")
     writer = PdfWriter()
