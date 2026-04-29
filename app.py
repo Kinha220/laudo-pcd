@@ -103,9 +103,8 @@ def check(valor):
 def radio_carater(valor):
     if valor == "Provisória":
         return "/Escolha1"
-    elif valor == "Permanente":
+    else:
         return "/Escolha2"
-    return "/Off"
 
 
 if st.button("Gerar PDF"):
@@ -141,6 +140,8 @@ if st.button("Gerar PDF"):
         "Text16": responsavel_servico,
         "Text17": nome,
         "Text18": cpf,
+        "Text19": nome,
+        "Text20": cpf,
 
         # Página 3
         "Text25": nome_medico,
