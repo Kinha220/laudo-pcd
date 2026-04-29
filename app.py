@@ -157,18 +157,15 @@ if st.button("Gerar PDF"):
         "Text20": cpf,
 
         # Página 3
-        "Text21": nome_medico,
-        "Text22": cpf_medico,
-        "Text23": especialidade,
-        "Text25": unidade,
-        "Text26": cnpj_unidade,
-        "Text29": "",
-        "Text30": "",
+        "Text24": especialidade,
+         "Text25": "",
+        "Text26": "",        
+        "Text27": unidade,
+        "Text28": cnpj_unidade,        
+        "Text29": responsavel,
+        "Text30": cpf_responsavel,        
         "Text31": responsavel,
         "Text32": cpf_responsavel,
-        "Text64": nome,
-        "Text65": cpf,
-        "Text66": "verdadeiras",
 
         # Checkboxes página 1
         "Check Box34": check(tipo_servico == "Detran"),
