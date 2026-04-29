@@ -4,6 +4,7 @@ from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+from datetime import datetime
 import re
 
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
@@ -90,7 +91,50 @@ def marcar_carater_visual(writer, carater):
     overlay = PdfReader(packet)
     writer.pages[0].merge_page(overlay.pages[0])
 
+def validar_cpf(cpf):
+    cpf = somente_numeros(cpf)
 
+    if len(cpf) != 11 or cpf == cpf[0] * 11:
+        return False
+
+    soma = sum(int(cpf[i]) * (10 - i) for i in range(9))
+    dig1 = 11 - (soma % 11)
+    dig1 = 0 if dig1 >= 10 else dig1
+
+    soma = sum(int(cpf[i]) * (11 - i) for i in range(10))
+    dig2 = 11 - (soma % 11)
+    dig2 = 0 if dig2 >= 10 else dig2
+
+    return cpf[-2:] == f"{dig1}{dig2}"
+
+
+def validar_cnpj(cnpj):
+    cnpj = somente_numeros(cnpj)
+
+    if len(cnpj) != 14 or cnpj == cnpj[0] * 14:
+        return False
+
+    pesos1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+    pesos2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+
+    soma = sum(int(cnpj[i]) * pesos1[i] for i in range(12))
+    dig1 = 11 - (soma % 11)
+    dig1 = 0 if dig1 >= 10 else dig1
+
+    soma = sum(int(cnpj[i]) * pesos2[i] for i in range(13))
+    dig2 = 11 - (soma % 11)
+    dig2 = 0 if dig2 >= 10 else dig2
+
+    return cnpj[-2:] == f"{dig1}{dig2}"
+
+
+def validar_data(data):
+    try:
+        datetime.strptime(data, "%d/%m/%Y")
+        return True
+    except ValueError:
+        return False
+        
 # ========================
 # FORMULÁRIO
 # ========================
@@ -227,6 +271,30 @@ cpf_responsavel_unidade = st.text_input(
     args=("cpf_responsavel_unidade",)
 )
 
+erros = []
+
+    if not validar_cnpj(cnpj):
+        erros.append("CNPJ principal inválido.")
+
+    if not validar_data(data):
+        erros.append("Data inválida. Use uma data real no formato dd/mm/aaaa.")
+
+    if not validar_cpf(cpf_requerente):
+        erros.append("CPF do requerente inválido.")
+
+    if cpf_medico and not validar_cpf(cpf_medico):
+        erros.append("CPF do médico inválido.")
+
+    if not validar_cnpj(cnpj_unidade):
+        erros.append("CNPJ da unidade inválido.")
+
+    if cpf_responsavel_unidade and not validar_cpf(cpf_responsavel_unidade):
+        erros.append("CPF do responsável inválido.")
+
+    if erros:
+        for erro in erros:
+            st.error(erro)
+        st.stop()
 
 # ========================
 # GERAR PDF
