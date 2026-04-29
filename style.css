@@ -33,17 +33,6 @@
     line-height: 1.2;
 }
 
-/* ===== TÍTULOS ===== */
-h2, h3 {
-    color: #D8B46A;
-    margin-top: 0.6rem !important;
-    margin-bottom: 0.2rem !important;
-}
-
-/* ===== ESPAÇAMENTO ===== */
-[data-testid="stVerticalBlock"] {
-    gap: 0.4rem;
-}
 
 /* ===== CAMPOS ===== */
 div[data-testid="stTextInput"] input,
