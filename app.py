@@ -3,34 +3,93 @@ from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 
-st.title("📄 Gerador de Laudo PCD")
+st.title("📄 Gerador de Laudo PCD - Anexo Único")
 
 # ========================
-# FORMULÁRIO
+# DADOS PRINCIPAIS
 # ========================
 
-servico_medico = st.text_input("Serviço Médico")
+st.subheader("1. Serviço Médico")
+servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
 cnpj = st.text_input("CNPJ")
 data = st.text_input("Data")
 
+tipo_servico = st.selectbox(
+    "Serviço médico prestado por:",
+    [
+        "",
+        "Detran",
+        "Privado credenciado pelo Detran",
+        "Serviço público de saúde",
+        "Privado que integra o SUS",
+        "Serviço social autônomo"
+    ]
+)
+
+st.subheader("2. Identificação do Requerente")
 nome = st.text_input("Nome")
 cpf = st.text_input("CPF")
 
-cid_fisica = st.text_input("CID Física")
-cid_visual = st.text_input("CID Visual/Auditiva")
-descricao = st.text_area("Descrição")
+st.subheader("3. Laudo de Avaliação")
+cid_fisica = st.text_input("CID - Deficiência Física")
+cid_visual = st.text_input("CID - Deficiência Visual/Auditiva")
+descricao = st.text_area("Descrição detalhada da deficiência")
 
+st.subheader("4. Assinaturas")
 nome_medico = st.text_input("Nome do médico")
-responsavel_servico = st.text_input("Responsável do serviço")
+responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
 
-especialidade = st.text_input("Especialidade")
+st.subheader("5. Informações Complementares")
+
+tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
+tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
+
+segmentos = st.multiselect(
+    "Segmentos afetados",
+    ["Cabeça", "Pescoço", "Tronco", "Membros Inferiores", "Membros Superiores"]
+)
+
+formas = st.multiselect(
+    "Forma da deficiência física",
+    [
+        "Paraplegia",
+        "Monoparesia",
+        "Triplegia",
+        "Hemiparesia",
+        "Paralisia Cerebral",
+        "Paraparesia",
+        "Tetraplegia",
+        "Triparesia",
+        "Ostomia",
+        "Nanismo",
+        "Monoplegia",
+        "Tetraparesia",
+        "Hemiplegia",
+        "Amputação ou Ausência de Membro",
+        "Deformidade congênita/adquirida"
+    ]
+)
+
+condicoes = st.multiselect(
+    "Condições visual/auditiva",
+    [
+        "Acuidade visual / campo visual",
+        "Perda auditiva bilateral"
+    ]
+)
+
+st.subheader("6. Assinatura Final")
 cpf_medico = st.text_input("CPF do médico")
+especialidade = st.text_input("Especialidade")
+unidade = st.text_input("Unidade Emissora do Laudo")
+cnpj_unidade = st.text_input("CNPJ da Unidade")
+responsavel = st.text_input("Responsável pela Unidade")
+cpf_responsavel = st.text_input("CPF do Responsável")
 
-unidade = st.text_input("Unidade emissora")
-cnpj_unidade = st.text_input("CNPJ unidade")
 
-responsavel = st.text_input("Responsável")
-cpf_responsavel = st.text_input("CPF responsável")
+def check(valor):
+    return "/Yes" if valor else "/Off"
+
 
 if st.button("Gerar PDF"):
 
@@ -75,7 +134,42 @@ if st.button("Gerar PDF"):
         "Text30": cpf_responsavel,
         "Text64": nome,
         "Text65": cpf,
-        "Text66": "verdadeiras"
+        "Text66": "verdadeiras",
+
+        # Checkboxes página 1
+        "Check Box34": check(tipo_servico == "Detran"),
+        "Check Box35": check(tipo_servico == "Privado credenciado pelo Detran"),
+        "Check Box36": check(tipo_servico == "Serviço público de saúde"),
+        "Check Box37": check(tipo_servico == "Privado que integra o SUS"),
+        "Check Box38": check(tipo_servico == "Serviço social autônomo"),
+
+        # Checkboxes página 2
+        "Check Box42": check(tem_def_fisica),
+
+        "Check Box43": check("Cabeça" in segmentos),
+        "Check Box44": check("Pescoço" in segmentos),
+        "Check Box45": check("Tronco" in segmentos),
+        "Check Box46": check("Membros Inferiores" in segmentos),
+        "Check Box47": check("Membros Superiores" in segmentos),
+
+        "Check Box48": check("Paraplegia" in formas),
+        "Check Box49": check("Monoparesia" in formas),
+        "Check Box50": check("Triplegia" in formas),
+        "Check Box51": check("Hemiparesia" in formas),
+        "Check Box52": check("Paralisia Cerebral" in formas),
+        "Check Box53": check("Paraparesia" in formas),
+        "Check Box54": check("Tetraplegia" in formas),
+        "Check Box55": check("Triparesia" in formas),
+        "Check Box56": check("Ostomia" in formas),
+        "Check Box57": check("Nanismo" in formas),
+        "Check Box58": check("Monoplegia" in formas),
+        "Check Box59": check("Tetraparesia" in formas),
+        "Check Box60": check("Hemiplegia" in formas),
+        "Check Box61": check("Amputação ou Ausência de Membro"),
+        "Check Box67": check("Deformidade congênita/adquirida" in formas),
+
+        "Check Box62": check("Acuidade visual / campo visual" in condicoes),
+        "Check Box63": check("Perda auditiva bilateral" in condicoes),
     }
 
     for i in range(len(writer.pages)):
@@ -90,6 +184,6 @@ if st.button("Gerar PDF"):
     st.download_button(
         "📥 Baixar PDF",
         output,
-        "laudo_final.pdf",
+        "laudo_pcd_preenchido.pdf",
         "application/pdf"
     )
