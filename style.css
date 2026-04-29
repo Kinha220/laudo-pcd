@@ -13,15 +13,16 @@
 }
 
 .app-title {
-    font-size: 38px;
+    font-size: 34px;
     font-weight: 800;
     color: #ffffff;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .app-subtitle {
     color: #cbd5e1;
-    font-size: 16px;
+    font-size: 15px;
+    line-height: 1.2;
 }
 
 .section-card {
