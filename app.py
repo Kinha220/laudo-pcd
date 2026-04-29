@@ -154,7 +154,6 @@ if st.button("Gerar PDF"):
         "Text15": nome_medico,
         "Text16": assinatura_medico,
         "Text17": responsavel_servico,
-        "Text16": assinatura_responsavel,
         "Text18": cpf_responsavel,
         "Text19": nome_requerente,
         "Text20": cpf_requerente,
@@ -174,12 +173,11 @@ if st.button("Gerar PDF"):
         "Text32": cpf_responsavel,
 
         # Checkboxes página 1
-        "Check Box34": check(tipo_servico == "Detran"),
-        "Check Box35": check(tipo_servico == "Privado credenciado pelo Detran"),
-        "Check Box36": check(tipo_servico == "Serviço público de saúde"),
-        "Check Box37": check(tipo_servico == "Privado que integra o SUS"),
-        "Check Box38": check(tipo_servico == "Serviço social autônomo"),
-
+        "Check Box34": check(tipo_servico == "pelo Departamento de Trânsito (Detran)"),
+        "Check Box35": check(tipo_servico == "por setor privado credenciado pelo Detran"),
+        "Check Box36": check(tipo_servico == "pelo serviço público de saúde"),
+        "Check Box37": check(tipo_servico == "por setor privado que integra o Sistema Único de Saúde (SUS)"),
+        "Check Box38": check(tipo_servico == "pelo serviço social autônomo"),
         # Checkboxes página 2
         "Check Box42": check(tem_def_fisica),
 
