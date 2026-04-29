@@ -143,9 +143,9 @@ if st.button("Gerar PDF"):
         "Text18": cpf,
 
         # Página 3
-        "Text21": nome_medico,
-        "Text22": cpf_medico,
-        "Text23": especialidade,
+        "Text26": nome_medico,
+        "Text27": cpf_medico,
+        "Text28": especialidade,
         "Text29": unidade,
         "Text30": cnpj_unidade,
         "Text31": responsavel,
