@@ -9,7 +9,7 @@ from datetime import datetime
 
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
-st.title("📄 Gerador de Laudo PCD - Anexo Único")
+st.title("📄 Gerador de Laudo PCD")
 st.markdown(
     """
     <script>
