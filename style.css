@@ -75,8 +75,3 @@ div[data-testid="stTextArea"] textarea {
     border-radius: 12px;
     font-weight: 800;
 }
-/* 🔥 ajuste fino de espaçamento */
-[data-testid="stVerticalBlock"] {
-    gap: 0.15rem !important;
-}
-
