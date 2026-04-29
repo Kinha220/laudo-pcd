@@ -1,236 +1,279 @@
 import streamlit as st
-from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, BooleanObject
-from io import BytesIO
-from reportlab.pdfgen import canvas
-from reportlab.lib.pagesizes import A4
+from pypdf import PdfReader
 
-st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
+st.title("🔎 Mapeamento COMPLETO do PDF")
 
-st.title("📄 Gerador de Laudo PCD - Anexo Único")
-
-# ========================
-# DADOS PRINCIPAIS
-# ========================
-
-st.subheader("1. Serviço Médico")
-servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
-cnpj = st.text_input("CNPJ")
-data = st.text_input("Data")
-
-tipo_servico = st.selectbox(
-    "Serviço médico prestado por:",
-    [
-        "",
-        "Detran",
-        "Privado credenciado pelo Detran",
-        "Serviço público de saúde",
-        "Privado que integra o SUS",
-        "Serviço social autônomo"
-    ]
+arquivo = st.selectbox(
+    "Escolha o PDF",
+    ["Anexo Unico.pdf", "Anexo III - PCAT 18-2013.pdf"]
 )
 
-st.subheader("2. Identificação do Requerente")
-nome = st.text_input("Nome")
-cpf = st.text_input("CPF")
+reader = PdfReader(arquivo)
 
-st.subheader("3. Laudo de Avaliação")
-cid_fisica = st.text_input("CID - Deficiência Física")
-cid_visual = st.text_input("CID - Deficiência Visual/Auditiva")
+st.subheader("📄 Campos encontrados")
 
-carater = st.radio(
-    "Caráter da deficiência",
-    ["Provisória", "Permanente"],
-    horizontal=True
-)
+campos_encontrados = {}
 
-descricao = st.text_area("Descrição detalhada da deficiência")
+for i, page in enumerate(reader.pages):
+    if "/Annots" in page:
+        for annot in page["/Annots"]:
+            obj = annot.get_object()
 
-st.subheader("4. Assinaturas")
-nome_medico = st.text_input("Nome do médico")
-responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
+            nome = obj.get("/T")
+            tipo = obj.get("/FT")
+            valor = obj.get("/V")
+            opcoes = obj.get("/_States_")
 
-st.subheader("5. Informações Complementares")
+            if nome:
+                campos_encontrados[nome] = {
+                    "pagina": i + 1,
+                    "tipo": tipo,
+                    "valor_atual": valor,
+                    "opcoes": opcoes
+                }
 
-tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
-tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
+# Mostrar organizado
+for nome, info in campos_encontrados.items():
+    st.write("---------------")
+    st.write(f"📌 Campo: {nome}")
+    st.write(f"📄 Página: {info['pagina']}")
+    st.write(f"🔠 Tipo: {info['tipo']}")
+    st.write(f"🧾 Valor atual: {info['valor_atual']}")
+    st.write(f"⚙️ Opções: {info['opcoes']}")
+    
+# import streamlit as st
+# from pypdf import PdfReader, PdfWriter
+# from pypdf.generic import NameObject, BooleanObject
+# from io import BytesIO
+# from reportlab.pdfgen import canvas
+# from reportlab.lib.pagesizes import A4
 
-segmentos = st.multiselect(
-    "Segmentos afetados",
-    ["Cabeça", "Pescoço", "Tronco", "Membros Inferiores", "Membros Superiores"]
-)
+# st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 
-formas = st.multiselect(
-    "Forma da deficiência física",
-    [
-        "Paraplegia",
-        "Monoparesia",
-        "Triplegia",
-        "Hemiparesia",
-        "Paralisia Cerebral",
-        "Paraparesia",
-        "Tetraplegia",
-        "Triparesia",
-        "Ostomia",
-        "Nanismo",
-        "Monoplegia",
-        "Tetraparesia",
-        "Hemiplegia",
-        "Amputação ou Ausência de Membro",
-        "Deformidade congênita/adquirida"
-    ]
-)
+# st.title("📄 Gerador de Laudo PCD - Anexo Único")
 
-condicoes = st.multiselect(
-    "Condições visual/auditiva",
-    [
-        "Acuidade visual / campo visual",
-        "Perda auditiva bilateral"
-    ]
-)
+# # ========================
+# # DADOS PRINCIPAIS
+# # ========================
 
-st.subheader("6. Assinatura Final")
-cpf_medico = st.text_input("CPF do médico")
-especialidade = st.text_input("Especialidade")
-unidade = st.text_input("Unidade Emissora do Laudo", value=servico_medico)
-cnpj_unidade = st.text_input("CNPJ da Unidade", value=cnpj)
-responsavel = st.text_input("Responsável pela Unidade")
-cpf_responsavel = st.text_input("CPF do Responsável")
+# st.subheader("1. Serviço Médico")
+# servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
+# cnpj = st.text_input("CNPJ")
+# data = st.text_input("Data")
+
+# tipo_servico = st.selectbox(
+#     "Serviço médico prestado por:",
+#     [
+#         "",
+#         "Detran",
+#         "Privado credenciado pelo Detran",
+#         "Serviço público de saúde",
+#         "Privado que integra o SUS",
+#         "Serviço social autônomo"
+#     ]
+# )
+
+# st.subheader("2. Identificação do Requerente")
+# nome = st.text_input("Nome")
+# cpf = st.text_input("CPF")
+
+# st.subheader("3. Laudo de Avaliação")
+# cid_fisica = st.text_input("CID - Deficiência Física")
+# cid_visual = st.text_input("CID - Deficiência Visual/Auditiva")
+
+# carater = st.radio(
+#     "Caráter da deficiência",
+#     ["Provisória", "Permanente"],
+#     horizontal=True
+# )
+
+# descricao = st.text_area("Descrição detalhada da deficiência")
+
+# st.subheader("4. Assinaturas")
+# nome_medico = st.text_input("Nome do médico")
+# responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
+
+# st.subheader("5. Informações Complementares")
+
+# tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
+# tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
+
+# segmentos = st.multiselect(
+#     "Segmentos afetados",
+#     ["Cabeça", "Pescoço", "Tronco", "Membros Inferiores", "Membros Superiores"]
+# )
+
+# formas = st.multiselect(
+#     "Forma da deficiência física",
+#     [
+#         "Paraplegia",
+#         "Monoparesia",
+#         "Triplegia",
+#         "Hemiparesia",
+#         "Paralisia Cerebral",
+#         "Paraparesia",
+#         "Tetraplegia",
+#         "Triparesia",
+#         "Ostomia",
+#         "Nanismo",
+#         "Monoplegia",
+#         "Tetraparesia",
+#         "Hemiplegia",
+#         "Amputação ou Ausência de Membro",
+#         "Deformidade congênita/adquirida"
+#     ]
+# )
+
+# condicoes = st.multiselect(
+#     "Condições visual/auditiva",
+#     [
+#         "Acuidade visual / campo visual",
+#         "Perda auditiva bilateral"
+#     ]
+# )
+
+# st.subheader("6. Assinatura Final")
+# cpf_medico = st.text_input("CPF do médico")
+# especialidade = st.text_input("Especialidade")
+# unidade = st.text_input("Unidade Emissora do Laudo", value=servico_medico)
+# cnpj_unidade = st.text_input("CNPJ da Unidade", value=cnpj)
+# responsavel = st.text_input("Responsável pela Unidade")
+# cpf_responsavel = st.text_input("CPF do Responsável")
 
 
-def check(valor):
-    return "/Sim" if valor else "/Off"
+# def check(valor):
+#     return "/Sim" if valor else "/Off"
 
 
-def marcar_carater_visual(writer, carater):
-    packet = BytesIO()
-    c = canvas.Canvas(packet, pagesize=A4)
+# def marcar_carater_visual(writer, carater):
+#     packet = BytesIO()
+#     c = canvas.Canvas(packet, pagesize=A4)
 
-    c.setFont("Helvetica-Bold", 12)
+#     c.setFont("Helvetica-Bold", 12)
 
-    # Ajuste fino do X:
-    # Primeiro número = esquerda/direita
-    # Segundo número = sobe/desce
-    if carater == "Provisória":
-       c.circle(280, 280, 5, fill=1)
-    else:
-       c.circle(420, 280, 5, fill=1)
+#     # Ajuste fino do X:
+#     # Primeiro número = esquerda/direita
+#     # Segundo número = sobe/desce
+#     if carater == "Provisória":
+#        c.circle(280, 280, 5, fill=1)
+#     else:
+#        c.circle(420, 280, 5, fill=1)
 
-    c.save()
-    packet.seek(0)
+#     c.save()
+#     packet.seek(0)
 
-    overlay = PdfReader(packet)
-    writer.pages[0].merge_page(overlay.pages[0])
+#     overlay = PdfReader(packet)
+#     writer.pages[0].merge_page(overlay.pages[0])
 
 
-if st.button("Gerar PDF"):
+# if st.button("Gerar PDF"):
 
-    reader = PdfReader("Anexo Unico.pdf")
-    writer = PdfWriter()
+#     reader = PdfReader("Anexo Unico.pdf")
+#     writer = PdfWriter()
 
-    for page in reader.pages:
-        writer.add_page(page)
+#     for page in reader.pages:
+#         writer.add_page(page)
 
-    if "/AcroForm" in reader.trailer["/Root"]:
-        writer._root_object.update({
-            NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
-        })
-        writer._root_object["/AcroForm"].update({
-            NameObject("/NeedAppearances"): BooleanObject(True)
-        })
+#     if "/AcroForm" in reader.trailer["/Root"]:
+#         writer._root_object.update({
+#             NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
+#         })
+#         writer._root_object["/AcroForm"].update({
+#             NameObject("/NeedAppearances"): BooleanObject(True)
+#         })
 
-    campos = {
-        # Página 1
-        "Text7": servico_medico,
-        "Text8": cnpj,
-        "Text9": data,
-        "Text10": nome,
-        "Text11": cpf,
-        "Text12": cid_fisica,
-        "Text13": cid_visual,
-        "Text14": descricao,
+#     campos = {
+#         # Página 1
+#         "Text7": servico_medico,
+#         "Text8": cnpj,
+#         "Text9": data,
+#         "Text10": nome,
+#         "Text11": cpf,
+#         "Text12": cid_fisica,
+#         "Text13": cid_visual,
+#         "Text14": descricao,
 
-        # Página 2
-        "Text15": nome_medico,
-        "Text16": nome_medico,
+#         # Página 2
+#         "Text15": nome_medico,
+#         "Text16": nome_medico,
         
-        # CORREÇÃO AQUI
-        "Text17": "",
-        "Text18": "",
+#         # CORREÇÃO AQUI
+#         "Text17": "",
+#         "Text18": "",
         
-        "Text27": responsavel_servico,
-        "Text28": responsavel_servico,
+#         "Text27": responsavel_servico,
+#         "Text28": responsavel_servico,
         
-        # Declaração
-        "Text19": nome,
-        "Text20": cpf,
+#         # Declaração
+#         "Text19": nome,
+#         "Text20": cpf,
 
 
-        # Página 3
-        "Text21": nome_medico,
-        "Text22": nome,
-        "Text23": cpf,
-        "Text24": "",
-        "Text25": nome_medico,
-        "Text26": cpf,        
-        "Text27": especialidade,
-        "Text28": responsavel,        
-        "Text29": unidade,
-        "Text30": cnpj_unidade,        
-        "Text31": responsavel,
-        "Text32": cpf_responsavel,
+#         # Página 3
+#         "Text21": nome_medico,
+#         "Text22": nome,
+#         "Text23": cpf,
+#         "Text24": "",
+#         "Text25": nome_medico,
+#         "Text26": cpf,        
+#         "Text27": especialidade,
+#         "Text28": responsavel,        
+#         "Text29": unidade,
+#         "Text30": cnpj_unidade,        
+#         "Text31": responsavel,
+#         "Text32": cpf_responsavel,
 
-        # Checkboxes página 1
-        "Check Box34": check(tipo_servico == "Detran"),
-        "Check Box35": check(tipo_servico == "Privado credenciado pelo Detran"),
-        "Check Box36": check(tipo_servico == "Serviço público de saúde"),
-        "Check Box37": check(tipo_servico == "Privado que integra o SUS"),
-        "Check Box38": check(tipo_servico == "Serviço social autônomo"),
+#         # Checkboxes página 1
+#         "Check Box34": check(tipo_servico == "Detran"),
+#         "Check Box35": check(tipo_servico == "Privado credenciado pelo Detran"),
+#         "Check Box36": check(tipo_servico == "Serviço público de saúde"),
+#         "Check Box37": check(tipo_servico == "Privado que integra o SUS"),
+#         "Check Box38": check(tipo_servico == "Serviço social autônomo"),
 
-        # Checkboxes página 2
-        "Check Box42": check(tem_def_fisica),
+#         # Checkboxes página 2
+#         "Check Box42": check(tem_def_fisica),
 
-        "Check Box43": check("Cabeça" in segmentos),
-        "Check Box44": check("Pescoço" in segmentos),
-        "Check Box45": check("Tronco" in segmentos),
-        "Check Box46": check("Membros Inferiores" in segmentos),
-        "Check Box47": check("Membros Superiores" in segmentos),
+#         "Check Box43": check("Cabeça" in segmentos),
+#         "Check Box44": check("Pescoço" in segmentos),
+#         "Check Box45": check("Tronco" in segmentos),
+#         "Check Box46": check("Membros Inferiores" in segmentos),
+#         "Check Box47": check("Membros Superiores" in segmentos),
 
-        "Check Box48": check("Paraplegia" in formas),
-        "Check Box49": check("Monoparesia" in formas),
-        "Check Box50": check("Triplegia" in formas),
-        "Check Box51": check("Hemiparesia" in formas),
-        "Check Box52": check("Paralisia Cerebral" in formas),
-        "Check Box53": check("Paraparesia" in formas),
-        "Check Box54": check("Tetraplegia" in formas),
-        "Check Box55": check("Triparesia" in formas),
-        "Check Box56": check("Ostomia" in formas),
-        "Check Box57": check("Nanismo" in formas),
-        "Check Box58": check("Monoplegia" in formas),
-        "Check Box59": check("Tetraparesia" in formas),
-        "Check Box60": check("Hemiplegia" in formas),
-        "Check Box61": check("Amputação ou Ausência de Membro" in formas),
-        "Check Box67": check("Deformidade congênita/adquirida" in formas),
+#         "Check Box48": check("Paraplegia" in formas),
+#         "Check Box49": check("Monoparesia" in formas),
+#         "Check Box50": check("Triplegia" in formas),
+#         "Check Box51": check("Hemiparesia" in formas),
+#         "Check Box52": check("Paralisia Cerebral" in formas),
+#         "Check Box53": check("Paraparesia" in formas),
+#         "Check Box54": check("Tetraplegia" in formas),
+#         "Check Box55": check("Triparesia" in formas),
+#         "Check Box56": check("Ostomia" in formas),
+#         "Check Box57": check("Nanismo" in formas),
+#         "Check Box58": check("Monoplegia" in formas),
+#         "Check Box59": check("Tetraparesia" in formas),
+#         "Check Box60": check("Hemiplegia" in formas),
+#         "Check Box61": check("Amputação ou Ausência de Membro" in formas),
+#         "Check Box67": check("Deformidade congênita/adquirida" in formas),
 
-        "Check Box62": check("Acuidade visual / campo visual" in condicoes),
-        "Check Box63": check("Perda auditiva bilateral" in condicoes),
-    }
+#         "Check Box62": check("Acuidade visual / campo visual" in condicoes),
+#         "Check Box63": check("Perda auditiva bilateral" in condicoes),
+#     }
 
-    for page in writer.pages:
-        writer.update_page_form_field_values(page, campos)
+#     for page in writer.pages:
+#         writer.update_page_form_field_values(page, campos)
 
-    # Marca Provisória/Permanente com X visual
-    marcar_carater_visual(writer, carater)
+#     # Marca Provisória/Permanente com X visual
+#     marcar_carater_visual(writer, carater)
 
-    output = BytesIO()
-    writer.write(output)
-    output.seek(0)
+#     output = BytesIO()
+#     writer.write(output)
+#     output.seek(0)
 
-    st.success("PDF gerado com sucesso!")
+#     st.success("PDF gerado com sucesso!")
 
-    st.download_button(
-        "📥 Baixar PDF",
-        output,
-        "laudo_pcd_preenchido.pdf",
-        "application/pdf"
-    )
+#     st.download_button(
+#         "📥 Baixar PDF",
+#         output,
+#         "laudo_pcd_preenchido.pdf",
+#         "application/pdf"
+#     )
