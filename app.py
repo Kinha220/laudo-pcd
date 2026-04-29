@@ -8,7 +8,7 @@ import re
 from datetime import datetime
 
 def carregar_css():
-    with open("style.css") as f:
+    with open("style.css", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
         
 def check_login():
@@ -35,25 +35,35 @@ st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
 check_login()
 
 st.title("📄 Gerador de Laudo PCD")
-st.markdown(
-    """
-    <script>
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') {
-            const inputs = Array.from(document.querySelectorAll('input'));
-            const active = document.activeElement;
-            const index = inputs.indexOf(active);
 
-            if (index > -1 && index < inputs.length - 1) {
-                e.preventDefault();
-                inputs[index + 1].focus();
-            }
-        }
-    });
-    </script>
-    """,
-    unsafe_allow_html=True
-)
+st.markdown("""
+<div class="app-header">
+    <div class="app-title">📄 Gerador de Laudo PCD</div>
+    <div class="app-subtitle">
+        Sistema online para preenchimento automático do Anexo Único.
+    </div>
+</div>
+""", unsafe_allow_html=True)
+
+# st.markdown(
+#     """
+#     <script>
+#     document.addEventListener('keydown', function(e) {
+#         if (e.key === 'Enter') {
+#             const inputs = Array.from(document.querySelectorAll('input'));
+#             const active = document.activeElement;
+#             const index = inputs.indexOf(active);
+
+#             if (index > -1 && index < inputs.length - 1) {
+#                 e.preventDefault();
+#                 inputs[index + 1].focus();
+#             }
+#         }
+#     });
+#     </script>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 # ========================
 # FUNÇÕES
@@ -184,7 +194,8 @@ def marcar_carater_visual(writer, carater):
 # FORMULÁRIO
 # ========================
 
-st.subheader("1. Serviço Médico")
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">1. Serviço Médico</div>', unsafe_allow_html=True)
 
 servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
 
@@ -213,7 +224,10 @@ tipo_servico = st.selectbox(
     ],
 )
 
-st.subheader("2. Identificação do Requerente")
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">2. Identificação do Requerente</div>', unsafe_allow_html=True)
 
 nome_requerente = st.text_input("Nome")
 
@@ -224,7 +238,10 @@ cpf_requerente = st.text_input(
     args=("cpf_requerente",)
 )
 
-st.subheader("3. Laudo de Avaliação")
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">3. Laudo de Avaliação</div>', unsafe_allow_html=True)
 
 cid_fisica = st.text_input("CID - Deficiência Física (*)")
 cid_visual = st.text_input("CID - Deficiência Visual/Auditiva (*)")
@@ -237,8 +254,11 @@ carater = st.radio(
 
 descricao = st.text_area("Descrição detalhada da deficiência")
 
-st.subheader("4. Assinaturas")
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">4. Assinaturas</div>', unsafe_allow_html=True)
 
+
+st.markdown('</div>', unsafe_allow_html=True)
 nome_medico = st.text_input("Nome do médico")
 assinatura_medico = st.text_input("Assinatura do médico")
 responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
@@ -246,7 +266,11 @@ assinatura_responsavel_servico = st.text_input(
     "Assinatura do responsável pelo serviço médico"
 )
 
-st.subheader("5. Informações Complementares")
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">5. Informações Complementares</div>', unsafe_allow_html=True)
 
 tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
 tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
@@ -285,7 +309,10 @@ condicoes = st.multiselect(
     ],
 )
 
-st.subheader("6. Assinatura Final")
+st.markdown('</div>', unsafe_allow_html=True)
+
+st.markdown('<div class="section-card">', unsafe_allow_html=True)
+st.markdown('<div class="section-title">6. Assinatura Final</div>', unsafe_allow_html=True)
 
 cpf_medico = st.text_input(
     "CPF do médico",
