@@ -1,28 +1,49 @@
 import streamlit as st
-from pypdf import PdfReader
+from pypdf import PdfReader, PdfWriter
+from pypdf.generic import NameObject, BooleanObject
+from io import BytesIO
 
-st.title("🔎 Leitor de campos do PDF")
+st.title("🧪 Mapeador de campos do PDF")
 
-arquivo = st.selectbox(
-    "Escolha o PDF",
-    ["Anexo Unico.pdf", "Anexo III - PCAT 18-2013.pdf"]
-)
+if st.button("Gerar PDF com nomes dos campos"):
 
-reader = PdfReader(arquivo)
-fields = reader.get_fields()
+    reader = PdfReader("Anexo Unico.pdf")
+    writer = PdfWriter()
 
-if fields:
-    st.success(f"Foram encontrados {len(fields)} campos editáveis.")
+    for page in reader.pages:
+        writer.add_page(page)
 
-    for nome_campo, info in fields.items():
-        tipo = info.get("/FT", "")
-        valor = info.get("/V", "")
-        opcoes = info.get("/Opt", "")
+    if "/AcroForm" in reader.trailer["/Root"]:
+        writer._root_object.update({
+            NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
+        })
+        writer._root_object["/AcroForm"].update({
+            NameObject("/NeedAppearances"): BooleanObject(True)
+        })
 
-        st.write("---------------")
-        st.write("📌 Campo:", nome_campo)
-        st.write("Tipo:", tipo)
-        st.write("Valor atual:", valor)
-        st.write("Opções:", opcoes)
-else:
-    st.error("Esse PDF não possui campos editáveis detectáveis.")
+    campos = {}
+
+    # Preenche todos os campos de texto com o próprio nome
+    for i in range(7, 34):
+        campos[f"Text{i}"] = f"Text{i}"
+
+    campos["Text64"] = "Text64"
+    campos["Text65"] = "Text65"
+    campos["Text66"] = "Text66"
+
+    # Teste do caráter da deficiência
+    campos["Group40"] = "/Permanente"
+
+    for i in range(len(writer.pages)):
+        writer.update_page_form_field_values(writer.pages[i], campos)
+
+    output = BytesIO()
+    writer.write(output)
+    output.seek(0)
+
+    st.download_button(
+        "📥 Baixar PDF mapeado",
+        data=output,
+        file_name="mapa_campos.pdf",
+        mime="application/pdf"
+    )
