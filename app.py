@@ -157,7 +157,11 @@ if st.button("Gerar PDF"):
         "Text18": cpf_responsavel,
         "Text19": nome_requerente,
         "Text20": cpf_requerente,
-
+        # DECLARAÇÃO 
+        "Text64": nome_requerente,
+        "Text65": cpf_requerente,
+        "Text66": "verdadeiras",
+        
         # Página 3
         "Text21": nome_medico,
         "Text22": cpf_medico,
