@@ -165,7 +165,7 @@ if st.button("Gerar PDF"):
         # "Text26": "",        
         "Text27": especialidade,
         "Text28": cnpj_unidade,        
-        "Text29": unidade,
+        "Text29": responsavel,
         "Text30": nome_medico,
         # Página 3 (correto de verdade)
         # "Text23": especialidade,        
