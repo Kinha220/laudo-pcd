@@ -103,8 +103,22 @@ def check(valor):
 def radio_carater(valor):
     if valor == "Provisória":
         return "/Escolha1"
-    else:
-        return "/Escolha2"
+    return "/Escolha2"
+
+
+def forcar_radio_carater(writer, carater):
+    valor = "/Escolha1" if carater == "Provisória" else "/Escolha2"
+
+    for page in writer.pages:
+        if "/Annots" in page:
+            for annot in page["/Annots"]:
+                obj = annot.get_object()
+
+                if obj.get("/T") == "Group40":
+                    obj.update({
+                        NameObject("/V"): NameObject(valor),
+                        NameObject("/AS"): NameObject(valor)
+                    })
 
 
 if st.button("Gerar PDF"):
@@ -138,17 +152,17 @@ if st.button("Gerar PDF"):
         # Página 2
         "Text15": nome_medico,
         "Text16": responsavel_servico,
-        "Text17": nome,
-        "Text18": cpf,
         "Text19": nome,
         "Text20": cpf,
 
         # Página 3
-        "Text25": nome_medico,
-        "Text27": cpf_medico,
-        "Text28": especialidade,
-        "Text29": unidade,
-        "Text30": cnpj_unidade,
+        "Text21": nome_medico,
+        "Text22": cpf_medico,
+        "Text23": especialidade,
+        "Text25": unidade,
+        "Text26": cnpj_unidade,
+        "Text29": "",
+        "Text30": "",
         "Text31": responsavel,
         "Text32": cpf_responsavel,
         "Text64": nome,
@@ -191,8 +205,11 @@ if st.button("Gerar PDF"):
         "Check Box63": check("Perda auditiva bilateral" in condicoes),
     }
 
-    for i in range(len(writer.pages)):
-        writer.update_page_form_field_values(writer.pages[i], campos)
+    for page in writer.pages:
+        writer.update_page_form_field_values(page, campos)
+
+    # Força o radio button Provisória/Permanente
+    forcar_radio_carater(writer, carater)
 
     output = BytesIO()
     writer.write(output)
