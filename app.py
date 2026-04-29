@@ -48,7 +48,7 @@ st.subheader("4. Assinaturas")
 nome_medico = st.text_input("Nome do médico")
 assinatura_medico = st.text_input("Assinatura")
 responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
-assinatura_responsavel = st.text_input("Assinatura")
+assinatura_responsavel = st.text_input("Assinatura Resp")
 
 st.subheader("5. Informações Complementares")
 
