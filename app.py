@@ -160,18 +160,12 @@ if st.button("Gerar PDF"):
         "Text20": cpf,
 
         # Página 3
-        # "Text24": especialidade,
-        # "Text25": "",
-        # "Text26": "",        
+        "Text25": nome_medico,
+        "Text26": cpf,        
         "Text27": especialidade,
         "Text28": responsavel,        
         "Text29": unidade,
-        "Text30": cnpj_unidade,
-        # Página 3 (correto de verdade)
-        # "Text23": especialidade,        
-        # "Text25": unidade,
-        # "Text26": cnpj_unidade, 
-        
+        "Text30": cnpj_unidade,        
         "Text31": responsavel,
         "Text32": cpf_responsavel,
 
