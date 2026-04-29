@@ -1,10 +1,4 @@
 /* ===== BASE ===== */
-/* 🔥 REDUZ espaço entre elementos */
-[data-testid="stVerticalBlock"] {
-    gap: 0.2rem !important;
-}
-
-
 .block-container { 
     max-width: 980px; 
     padding-top: 50px; /* 🔥 espaço para o header fixo */ } /* ===== HEADER FIXO ===== */ 
