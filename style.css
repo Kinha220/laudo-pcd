@@ -11,12 +11,11 @@
     left: 0;
     right: 0;
     background: #111827;
-    padding: 56px 15px 15px 15px; /* 🔥 reduzido (antes estava gigante) */
+    padding: 56px 10px 10px 10px; /* 🔥 reduzido (antes estava gigante) */
     border-bottom: 1px solid rgba(255,255,255,0.12);
     z-index: 9999;
     text-align: center;
 }
-
 /* ===== TÍTULO ===== */
 .app-title {
     font-size: 26px;
