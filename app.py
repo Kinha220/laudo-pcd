@@ -50,6 +50,7 @@ assinatura_medico = st.text_input("Assinatura")
 responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
 assinatura_responsavel = st.text_input("Assinatura Resp")
 
+
 st.subheader("5. Informações Complementares")
 
 tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
@@ -156,8 +157,8 @@ if st.button("Gerar PDF"):
         "Text16": assinatura_medico,
         "Text17": responsavel_servico,
         "Text18": assinatura_responsavel,
-        "Text19": "1",
-        "Text20": "2",
+        "Text19": nome_requerente,
+        "Text20": cpf_requerente,
         # DECLARAÇÃO 
         "Text64": nome_requerente,
         "Text65": cpf_requerente,
@@ -166,8 +167,8 @@ if st.button("Gerar PDF"):
         # Página 3
         "Text21": nome_medico,
         "Text22": cpf_medico,
-        "Text23": nome_requerente,
-        "Text24": cpf_requerente,
+        "Text23": responsavel_servico,
+        "Text24": assinatura_responsavel,
         "Text25": nome_medico,
         "Text26": cpf_medico,        
         "Text27": especialidade,
@@ -176,7 +177,7 @@ if st.button("Gerar PDF"):
         "Text30": cnpj_unidade,        
         "Text31": responsavel,
         "Text32": cpf_responsavel,
-
+        
         # Checkboxes página 1
         "Check Box34": check(tipo_servico == "pelo Departamento de Trânsito (Detran)"),
         "Check Box35": check(tipo_servico == "por setor privado credenciado pelo Detran"),
