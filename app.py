@@ -156,8 +156,8 @@ if st.button("Gerar PDF"):
         "Text16": assinatura_medico,
         "Text17": responsavel_servico,
         "Text18": assinatura_responsavel,
-        "Text19": nome_requerente,
-        "Text20": cpf_requerente,
+        "Text19": "1",
+        "Text20": "2",
         # DECLARAÇÃO 
         "Text64": nome_requerente,
         "Text65": cpf_requerente,
