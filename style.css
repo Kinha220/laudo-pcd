@@ -1,4 +1,20 @@
 /* ===== BASE ===== */
+/* 🔥 REDUZ espaço entre elementos */
+[data-testid="stVerticalBlock"] {
+    gap: 0.2rem !important;
+}
+
+/* 🔥 remove margem extra dos containers */
+div[data-testid="stElementContainer"] {
+    margin-bottom: 0.1rem !important;
+}
+
+/* 🔥 título mais próximo */
+h2, h3 {
+    margin-top: 0.3rem !important;
+    margin-bottom: 0.1rem !important;
+}
+
 .block-container { 
     max-width: 980px; 
     padding-top: 50px; /* 🔥 espaço para o header fixo */ } /* ===== HEADER FIXO ===== */ 
