@@ -160,6 +160,10 @@ if st.button("Gerar PDF"):
         "Text20": cpf,
 
         # Página 3
+        "Text21": nome_medico,
+        "Text22": nome,
+        "Text23": cpf,
+        "Text24": "",
         "Text25": nome_medico,
         "Text26": cpf,        
         "Text27": especialidade,
