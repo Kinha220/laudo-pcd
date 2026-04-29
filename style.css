@@ -1,8 +1,7 @@
 /* ===== BASE ===== */
 .block-container {
-    max-width: 960px;
-    padding-top: 82px;
-    padding-bottom: 24px;
+    max-width: 980px;
+    padding-top: 80px; /* 🔥 ajustado (header menor) */
 }
 
 /* ===== HEADER FIXO ===== */
@@ -12,46 +11,71 @@
     left: 0;
     right: 0;
     background: #111827;
-    padding: 66px 12px 20px 12px;
+    padding: 56px 12px 8px 12px; /* 🔥 reduzido (antes estava gigante) */
     border-bottom: 1px solid rgba(255,255,255,0.12);
     z-index: 9999;
     text-align: center;
 }
 
-
+/* ===== TÍTULO ===== */
 .app-title {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 800;
     color: #ffffff;
-    margin: 0 0 4px 0;
+
+    margin: 0 0 3px 0; /* 🔥 menos espaço abaixo */
+    line-height: 1.1;
 }
 
+/* ===== SUBTÍTULO ===== */
 .app-subtitle {
     color: #cbd5e1;
-    font-size: 14px;
-    margin: 0;
+    font-size: 13px;
+
+    margin: 0; /* 🔥 remove espaço extra */
     line-height: 1.2;
 }
 
+/* ===== SEÇÕES ===== */
+.section-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+
+    padding: 18px 20px; /* 🔥 mais compacto */
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #D8B46A;
+
+    margin-bottom: 10px; /* 🔥 menos espaço */
+}
 
 /* ===== CAMPOS ===== */
 div[data-testid="stTextInput"] input,
-div[data-testid="stTextArea"] textarea,
-div[data-testid="stSelectbox"] div {
-    border-radius: 10px !important;
+div[data-testid="stTextArea"] textarea {
+    border-radius: 12px !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
 }
 
 /* ===== BOTÕES ===== */
-.stButton button,
-.stDownloadButton button {
-    width: 100%;
-    height: 44px;
-    border-radius: 12px;
-    font-weight: 700;
-}
-
 .stButton button {
+    width: 100%;
+    height: 48px; /* 🔥 menor */
+    border-radius: 12px;
+    font-weight: 800;
+
     background: linear-gradient(90deg, #D8B46A, #A9813A);
     color: white;
     border: none;
+}
+
+.stDownloadButton button {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    font-weight: 800;
 }
