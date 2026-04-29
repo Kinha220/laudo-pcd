@@ -1,6 +1,6 @@
 .block-container {
     max-width: 980px;
-    padding-top: 15px; /* 🔥 espaço para o header fixo */
+    padding-top: 90px; /* 🔥 espaço para o header fixo */
 }
 
 /* ===== HEADER FIXO ===== */
@@ -10,9 +10,9 @@
     left: 0;
     right: 0;
     background: #111827;
-    padding: 14px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    z-index: 1000;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    z-index: 9999;
     text-align: center;
 }
 
