@@ -38,30 +38,11 @@ st.markdown("""
 <div class="app-header">
     <div class="app-title">📄 Gerador de Laudo PCD</div>
     <div class="app-subtitle">
-        Sistema online para preenchimento automático do Anexo Único.
+        Sistema online para preenchimento automático dos formularios para PCD.
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# st.markdown(
-#     """
-#     <script>
-#     document.addEventListener('keydown', function(e) {
-#         if (e.key === 'Enter') {
-#             const inputs = Array.from(document.querySelectorAll('input'));
-#             const active = document.activeElement;
-#             const index = inputs.indexOf(active);
-
-#             if (index > -1 && index < inputs.length - 1) {
-#                 e.preventDefault();
-#                 inputs[index + 1].focus();
-#             }
-#         }
-#     });
-#     </script>
-#     """,
-#     unsafe_allow_html=True
-# )
 
 # ========================
 # FUNÇÕES
