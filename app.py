@@ -112,9 +112,9 @@ def marcar_carater_visual(writer, carater):
     # Primeiro número = esquerda/direita
     # Segundo número = sobe/desce
     if carater == "Provisória":
-        c.drawString(300, 282, "X")
+        c.drawString(300, 279, "X")
     else:
-        c.drawString(420, 282, "X")
+        c.drawString(420, 279, "X")
 
     c.save()
     packet.seek(0)
