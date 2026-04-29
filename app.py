@@ -7,7 +7,26 @@ from reportlab.lib.pagesizes import A4
 import re
 from datetime import datetime
 
+def check_login():
+    if "logado" not in st.session_state:
+        st.session_state.logado = False
+
+    if not st.session_state.logado:
+        st.title("🔐 Acesso restrito")
+        senha = st.text_input("Digite a senha", type="password")
+
+        if st.button("Entrar"):
+            if senha == st.secrets["SENHA"]:
+                st.session_state.logado = True
+                st.rerun()
+            else:
+                st.error("Senha incorreta")
+
+        st.stop()
+        
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
+
+check_login()
 
 st.title("📄 Gerador de Laudo PCD")
 st.markdown(
