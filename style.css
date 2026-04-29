@@ -2,7 +2,7 @@
 .block-container { max-width: 980px; padding-top: 90px; /* 🔥 espaço para o header fixo */ } /* ===== HEADER FIXO ===== */ 
 .app-header { 
     position: fixed; 
-    top: 0; 
+    top: 10; 
     left: 0; 
     right: 0; 
     background: #111827; 
