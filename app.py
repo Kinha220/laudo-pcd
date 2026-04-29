@@ -38,7 +38,7 @@ cid_visual = st.text_input("CID - Deficiência Visual/Auditiva")
 
 carater = st.radio(
     "Caráter da deficiência",
-    ["", "Provisória", "Permanente"],
+    ["Provisória", "Permanente"],
     horizontal=True
 )
 
