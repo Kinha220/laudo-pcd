@@ -1,23 +1,45 @@
 import streamlit as st
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, BooleanObject
+from pypdf.generic import NameObject, TextStringObject, BooleanObject
 from io import BytesIO
 
-st.title("📄 Anexo III - PCD")
+st.title("🧪 Teste forte - Anexo III")
 
-nome = st.text_input("Nome")
-data_nasc = st.text_input("Data de nascimento")
-rg = st.text_input("RG")
-orgao = st.text_input("Órgão emissor")
-uf = st.text_input("UF")
-mae = st.text_input("Mãe")
-pai = st.text_input("Pai")
-sexo = st.radio("Sexo", ["Masculino", "Feminino"])
+nome = st.text_input("Nome", "TESTE NOME")
+cpf = st.text_input("CPF", "123.456.789-00")
+data = st.text_input("Data", "29/04/2026")
 
-def check(valor):
-    return "/Sim" if valor else "/Off"
+def preencher_campo_direto(writer, nome_campo, valor):
+    for page in writer.pages:
+        if "/Annots" not in page:
+            continue
 
-if st.button("Gerar PDF"):
+        for annot in page["/Annots"]:
+            obj = annot.get_object()
+
+            if obj.get("/T") == nome_campo:
+                obj.update({
+                    NameObject("/V"): TextStringObject(str(valor)),
+                    NameObject("/DV"): TextStringObject(str(valor))
+                })
+
+def marcar_checkbox_direto(writer, nome_campo, marcado=True):
+    valor = NameObject("/Sim") if marcado else NameObject("/Off")
+
+    for page in writer.pages:
+        if "/Annots" not in page:
+            continue
+
+        for annot in page["/Annots"]:
+            obj = annot.get_object()
+
+            if obj.get("/T") == nome_campo:
+                obj.update({
+                    NameObject("/V"): valor,
+                    NameObject("/AS"): valor
+                })
+
+if st.button("Gerar teste"):
 
     reader = PdfReader("Anexo III - PCAT 18-2013.pdf")
     writer = PdfWriter()
@@ -25,7 +47,6 @@ if st.button("Gerar PDF"):
     for page in reader.pages:
         writer.add_page(page)
 
-    # ESSENCIAL: copia o formulário interno
     if "/AcroForm" in reader.trailer["/Root"]:
         writer._root_object.update({
             NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
@@ -34,30 +55,20 @@ if st.button("Gerar PDF"):
             NameObject("/NeedAppearances"): BooleanObject(True)
         })
 
-    dados = {
-        "text_1aain": nome,
-        "text_2vzkg": data_nasc,
-        "text_3fmsf": rg,
-        "text_4uvdc": orgao,
-        "text_5xlcb": uf,
-        "text_8ylvx": mae,
-        "text_10mrxo": pai,
-        "checkbox_16fqts": check(sexo == "Masculino"),
-        "checkbox_17tlov": check(sexo == "Feminino"),
-    }
+    preencher_campo_direto(writer, "text_1aain", nome)
+    preencher_campo_direto(writer, "text_2vzkg", data)
+    preencher_campo_direto(writer, "text_3fmsf", cpf)
 
-    for page in writer.pages:
-        writer.update_page_form_field_values(page, dados)
+    marcar_checkbox_direto(writer, "checkbox_16fqts", True)
+    marcar_checkbox_direto(writer, "checkbox_17tlov", False)
 
     output = BytesIO()
     writer.write(output)
     output.seek(0)
 
-    st.success("PDF gerado com sucesso!")
-
     st.download_button(
-        "📥 Baixar PDF",
+        "📥 Baixar PDF teste",
         output,
-        "anexo3_preenchido.pdf",
+        "anexo3_teste.pdf",
         "application/pdf"
     )
