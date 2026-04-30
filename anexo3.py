@@ -1,66 +1,36 @@
 import streamlit as st
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, TextStringObject, BooleanObject
+from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 
-st.title("🧪 Teste forte - Anexo III")
+st.title("🧪 Teste Anexo III - Clone completo")
 
 nome = st.text_input("Nome", "TESTE NOME")
-cpf = st.text_input("CPF", "123.456.789-00")
 data = st.text_input("Data", "29/04/2026")
-
-def preencher_campo_direto(writer, nome_campo, valor):
-    for page in writer.pages:
-        if "/Annots" not in page:
-            continue
-
-        for annot in page["/Annots"]:
-            obj = annot.get_object()
-
-            if obj.get("/T") == nome_campo:
-                obj.update({
-                    NameObject("/V"): TextStringObject(str(valor)),
-                    NameObject("/DV"): TextStringObject(str(valor))
-                })
-
-def marcar_checkbox_direto(writer, nome_campo, marcado=True):
-    valor = NameObject("/Sim") if marcado else NameObject("/Off")
-
-    for page in writer.pages:
-        if "/Annots" not in page:
-            continue
-
-        for annot in page["/Annots"]:
-            obj = annot.get_object()
-
-            if obj.get("/T") == nome_campo:
-                obj.update({
-                    NameObject("/V"): valor,
-                    NameObject("/AS"): valor
-                })
+cpf = st.text_input("CPF", "123.456.789-00")
 
 if st.button("Gerar teste"):
 
     reader = PdfReader("Anexo III - PCAT 18-2013.pdf")
     writer = PdfWriter()
 
-    for page in reader.pages:
-        writer.add_page(page)
+    # 🔥 copia o PDF inteiro com estrutura interna
+    writer.clone_reader_document_root(reader)
 
-    if "/AcroForm" in reader.trailer["/Root"]:
-        writer._root_object.update({
-            NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
-        })
+    # força aparência dos campos
+    if "/AcroForm" in writer._root_object:
         writer._root_object["/AcroForm"].update({
             NameObject("/NeedAppearances"): BooleanObject(True)
         })
 
-    preencher_campo_direto(writer, "text_1aain", nome)
-    preencher_campo_direto(writer, "text_2vzkg", data)
-    preencher_campo_direto(writer, "text_3fmsf", cpf)
+    campos = {
+        "text_1aain": nome,
+        "text_2vzkg": data,
+        "text_3fmsf": cpf,
+    }
 
-    marcar_checkbox_direto(writer, "checkbox_16fqts", True)
-    marcar_checkbox_direto(writer, "checkbox_17tlov", False)
+    for page in writer.pages:
+        writer.update_page_form_field_values(page, campos)
 
     output = BytesIO()
     writer.write(output)
@@ -69,6 +39,6 @@ if st.button("Gerar teste"):
     st.download_button(
         "📥 Baixar PDF teste",
         output,
-        "anexo3_teste.pdf",
+        "anexo3_teste_clone.pdf",
         "application/pdf"
     )
