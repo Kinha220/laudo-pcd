@@ -1,10 +1,10 @@
 import streamlit as st
 from pypdf import PdfReader, PdfWriter
+from pypdf.generic import NameObject, BooleanObject
 from io import BytesIO
 
 st.title("📄 Anexo III - PCD")
 
-# ===== INPUTS =====
 nome = st.text_input("Nome")
 data_nasc = st.text_input("Data de nascimento")
 rg = st.text_input("RG")
@@ -12,8 +12,10 @@ orgao = st.text_input("Órgão emissor")
 uf = st.text_input("UF")
 mae = st.text_input("Mãe")
 pai = st.text_input("Pai")
-
 sexo = st.radio("Sexo", ["Masculino", "Feminino"])
+
+def check(valor):
+    return "/Sim" if valor else "/Off"
 
 if st.button("Gerar PDF"):
 
@@ -23,7 +25,15 @@ if st.button("Gerar PDF"):
     for page in reader.pages:
         writer.add_page(page)
 
-    # ===== MAPEAMENTO =====
+    # ESSENCIAL: copia o formulário interno
+    if "/AcroForm" in reader.trailer["/Root"]:
+        writer._root_object.update({
+            NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
+        })
+        writer._root_object["/AcroForm"].update({
+            NameObject("/NeedAppearances"): BooleanObject(True)
+        })
+
     dados = {
         "text_1aain": nome,
         "text_2vzkg": data_nasc,
@@ -32,24 +42,22 @@ if st.button("Gerar PDF"):
         "text_5xlcb": uf,
         "text_8ylvx": mae,
         "text_10mrxo": pai,
-
-        # SEXO (checkbox)
-        "checkbox_16fqts": "/Sim" if sexo == "Masculino" else "/Off",
-        "checkbox_17tlov": "/Sim" if sexo == "Feminino" else "/Off",
+        "checkbox_16fqts": check(sexo == "Masculino"),
+        "checkbox_17tlov": check(sexo == "Feminino"),
     }
 
-    writer.update_page_form_field_values(
-        writer.pages[0],
-        dados
-    )
-
-    # 🔥 IMPORTANTE (faz aparecer no PDF)
-    writer._root_object.update({
-        "/NeedAppearances": True
-    })
+    for page in writer.pages:
+        writer.update_page_form_field_values(page, dados)
 
     output = BytesIO()
     writer.write(output)
     output.seek(0)
 
-    st.download_button("📥 Baixar PDF", output, "anexo3.pdf")
+    st.success("PDF gerado com sucesso!")
+
+    st.download_button(
+        "📥 Baixar PDF",
+        output,
+        "anexo3_preenchido.pdf",
+        "application/pdf"
+    )
