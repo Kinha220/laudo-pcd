@@ -1,54 +1,36 @@
 import streamlit as st
+from reportlab.pdfgen import canvas
 from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, TextStringObject, BooleanObject
 from io import BytesIO
 
-st.title("🧪 Teste forte Anexo III")
+st.title("🧪 Teste visual Anexo III")
 
-nome = st.text_input("Nome", "GESSICA TESTE")
-data_nasc = st.text_input("Data nascimento", "29/04/2026")
-rg = st.text_input("RG", "123456789")
-orgao = st.text_input("Órgão", "SSP")
-uf = st.text_input("UF", "SP")
+if st.button("Gerar teste visual"):
 
-def preencher_texto(writer, campo, valor):
-    for page in writer.pages:
-        if "/Annots" not in page:
-            continue
+    original = PdfReader("Anexo III - PCAT 18-2013.pdf")
+    page = original.pages[0]
 
-        for annot in page["/Annots"]:
-            obj = annot.get_object()
+    largura = float(page.mediabox.width)
+    altura = float(page.mediabox.height)
 
-            if obj.get("/T") == campo:
-                obj.update({
-                    NameObject("/V"): TextStringObject(str(valor)),
-                    NameObject("/DV"): TextStringObject(str(valor)),
-                })
+    packet = BytesIO()
+    c = canvas.Canvas(packet, pagesize=(largura, altura))
 
-            if "/Parent" in obj:
-                parent = obj["/Parent"].get_object()
-                if parent.get("/T") == campo:
-                    parent.update({
-                        NameObject("/V"): TextStringObject(str(valor)),
-                        NameObject("/DV"): TextStringObject(str(valor)),
-                    })
+    c.setFont("Helvetica-Bold", 30)
+    c.drawString(50, altura - 100, "TESTE VISUAL")
+    c.drawString(50, altura - 150, "SE APARECER, FUNCIONOU")
 
-if st.button("Gerar teste"):
+    c.save()
+    packet.seek(0)
 
-    reader = PdfReader("Anexo III - PCAT 18-2013.pdf")
+    overlay = PdfReader(packet)
     writer = PdfWriter()
-    writer.clone_reader_document_root(reader)
 
-    if "/AcroForm" in writer._root_object:
-        writer._root_object["/AcroForm"].update({
-            NameObject("/NeedAppearances"): BooleanObject(True)
-        })
+    page.merge_page(overlay.pages[0])
+    writer.add_page(page)
 
-    preencher_texto(writer, "text_2omgi", nome)
-    preencher_texto(writer, "text_3qmhu", data_nasc)
-    preencher_texto(writer, "text_4iybw", rg)
-    preencher_texto(writer, "text_5ihyi", orgao)
-    preencher_texto(writer, "text_6bofk", uf)
+    for i in range(1, len(original.pages)):
+        writer.add_page(original.pages[i])
 
     output = BytesIO()
     writer.write(output)
@@ -57,6 +39,6 @@ if st.button("Gerar teste"):
     st.download_button(
         "📥 Baixar teste",
         output,
-        "teste_anexo3.pdf",
+        "teste_visual_anexo3.pdf",
         "application/pdf"
     )
