@@ -1,44 +1,28 @@
 import streamlit as st
-from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, BooleanObject
-from io import BytesIO
+from pypdf import PdfReader
 
-st.title("🧪 Teste Anexo III - Clone completo")
+st.title("🔎 Leitor de campos preenchidos - Anexo III")
 
-nome = st.text_input("Nome", "TESTE NOME")
-data = st.text_input("Data", "29/04/2026")
-cpf = st.text_input("CPF", "123.456.789-00")
+arquivo = st.file_uploader(
+    "Envie aqui o PDF já preenchido manualmente",
+    type=["pdf"]
+)
 
-if st.button("Gerar teste"):
+if arquivo is not None:
+    reader = PdfReader(arquivo)
+    campos = reader.get_fields()
 
-    reader = PdfReader("Anexo III - PCAT 18-2013.pdf")
-    writer = PdfWriter()
+    if not campos:
+        st.error("Nenhum campo editável encontrado.")
+    else:
+        st.success(f"Foram encontrados {len(campos)} campos.")
 
-    # 🔥 copia o PDF inteiro com estrutura interna
-    writer.clone_reader_document_root(reader)
+        for nome_campo, info in campos.items():
+            tipo = info.get("/FT", "")
+            valor = info.get("/V", "")
 
-    # força aparência dos campos
-    if "/AcroForm" in writer._root_object:
-        writer._root_object["/AcroForm"].update({
-            NameObject("/NeedAppearances"): BooleanObject(True)
-        })
-
-    campos = {
-        "text_1aain": nome,
-        "text_2vzkg": data,
-        "text_3fmsf": cpf,
-    }
-
-    for page in writer.pages:
-        writer.update_page_form_field_values(page, campos)
-
-    output = BytesIO()
-    writer.write(output)
-    output.seek(0)
-
-    st.download_button(
-        "📥 Baixar PDF teste",
-        output,
-        "anexo3_teste_clone.pdf",
-        "application/pdf"
-    )
+            if valor:
+                st.write("---------------")
+                st.write(f"📌 Campo interno: `{nome_campo}`")
+                st.write(f"🔠 Tipo: `{tipo}`")
+                st.write(f"📝 Valor preenchido: `{valor}`")
