@@ -28,9 +28,9 @@ def check_login():
 
         st.stop()
         
-carregar_css()
-
 st.set_page_config(page_title="Gerador de Laudo PCD", layout="centered")
+
+carregar_css()
 
 check_login()
 
@@ -233,18 +233,17 @@ carater = st.radio(
 
 descricao = st.text_area("Descrição detalhada da deficiência")
 
+st.markdown('</div>', unsafe_allow_html=True)
+
 st.markdown('<div class="section-card">', unsafe_allow_html=True)
 st.markdown('<div class="section-title">4. Assinaturas</div>', unsafe_allow_html=True)
 
-
-st.markdown('</div>', unsafe_allow_html=True)
 nome_medico = st.text_input("Nome do médico")
 assinatura_medico = st.text_input("Assinatura do médico")
 responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
 assinatura_responsavel_servico = st.text_input(
     "Assinatura do responsável pelo serviço médico"
 )
-
 
 st.markdown('</div>', unsafe_allow_html=True)
 
@@ -397,7 +396,7 @@ if st.button("Gerar PDF"):
         # Página 3 - 4.5 Declaração
         "Text64": nome_requerente,
         "Text65": cpf_requerente,
-        "Text66": "verdadeiras",
+        "Text66": "expressões da verdade.",
 
         # Página 3 - 4.6 Assinatura final
         "Text25": nome_medico,
