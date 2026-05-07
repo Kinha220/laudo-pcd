@@ -302,8 +302,8 @@ if st.button("Gerar PDF fixo"):
     texto(c, crm_cinefuncional, 321, 122)
     texto(c, data_cinefuncional, 466, 123)
 
-    marcar(c, exame_radiografia, 58, 94)
-    texto(c, crm_radiografia, 316, 94)
+    marcar(c, exame_radiografia, 57, 94)
+    texto(c, crm_radiografia, 312, 94)
     texto(c, data_radiografia, 466, 92)
 
     marcar(c, exame_cobb, 58, 70)
