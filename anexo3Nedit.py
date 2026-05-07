@@ -65,21 +65,21 @@ with st.expander("4. Deficiência física"):
         chk_d = st.checkbox("D")
         chk_e = st.checkbox("E")
         chk_f = st.checkbox("F")
+        chk_g = st.checkbox("G")
 
     with col2:
-        chk_g = st.checkbox("G")
         chk_h = st.checkbox("H")
         chk_i = st.checkbox("I")
         chk_j = st.checkbox("J")
+        chk_k = st.checkbox("K")
 
     with col3:
-        chk_k = st.checkbox("K")
         chk_l = st.checkbox("L")
         chk_m = st.checkbox("M")
         chk_n = st.checkbox("N")
+        chk_o = st.checkbox("O")
 
     with col4:
-        chk_o = st.checkbox("O")
         chk_p = st.checkbox("P")
         chk_q = st.checkbox("Q")
         chk_r = st.checkbox("R")
@@ -89,19 +89,27 @@ with st.expander("4. Deficiência física"):
     outra_especificacao = st.text_input("Outra - especificar detalhadamente")
 
     st.subheader("Formas apresentadas")
-    paraplegia = st.checkbox("Paraplegia")
-    monoparesia = st.checkbox("Monoparesia")
-    triplegia = st.checkbox("Triplegia")
-    hemiparesia = st.checkbox("Hemiparesia")
-    paralisia_cerebral = st.checkbox("Paralisia Cerebral")
-    paraparesia = st.checkbox("Paraparesia")
-    tetraplegia = st.checkbox("Tetraplegia")
-    triparesia = st.checkbox("Triparesia")
-    hemiplegia = st.checkbox("Hemiplegia")
-    nanismo = st.checkbox("Nanismo")
-    monoplegia = st.checkbox("Monoplegia")
-    tetraparesia = st.checkbox("Tetraparesia")
-    amputacao = st.checkbox("Amputação ou Ausência de Membro")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        paraplegia = st.checkbox("Paraplegia")
+        monoparesia = st.checkbox("Monoparesia")
+        triplegia = st.checkbox("Triplegia")
+        hemiparesia = st.checkbox("Hemiparesia")
+        paralisia_cerebral = st.checkbox("Paralisia Cerebral")
+
+    with col2:
+        paraparesia = st.checkbox("Paraparesia")
+        tetraplegia = st.checkbox("Tetraplegia")
+        triparesia = st.checkbox("Triparesia")
+        hemiplegia = st.checkbox("Hemiplegia")
+
+    with col3:
+        nanismo = st.checkbox("Nanismo")
+        monoplegia = st.checkbox("Monoplegia")
+        tetraparesia = st.checkbox("Tetraparesia")
+        amputacao = st.checkbox("Amputação ou Ausência de Membro")
+
 
 with st.expander("5. Exames"):
     exame_ressonancia = st.checkbox("Ressonância nuclear magnética")
@@ -266,41 +274,41 @@ if st.button("Gerar PDF fixo"):
     marcar(c, bool(outra_especificacao.strip()), 57, 517)
     texto(c, outra_especificacao, 215, 517, 10)
 
-    marcar(c, paraplegia, 53, 448)
-    marcar(c, monoparesia, 150, 448)
-    marcar(c, triplegia, 238, 449)
-    marcar(c, hemiparesia, 314, 448)
-    marcar(c, paralisia_cerebral, 423, 447)
+    marcar(c, paraplegia, 57, 448)
+    marcar(c, monoparesia, 155, 448)
+    marcar(c, triplegia, 244, 448)
+    marcar(c, hemiparesia, 320, 448)
+    marcar(c, paralisia_cerebral, 428, 448)
 
-    marcar(c, paraparesia, 51, 421)
-    marcar(c, tetraplegia, 148, 420)
-    marcar(c, triparesia, 239, 420)
-    marcar(c, hemiplegia, 315, 421)
-    marcar(c, nanismo, 423, 420)
+    marcar(c, paraparesia, 57, 421)
+    marcar(c, tetraplegia, 155, 420)
+    marcar(c, triparesia, 244, 420)
+    marcar(c, hemiplegia, 320, 420)
+    marcar(c, nanismo, 428, 420)
 
-    marcar(c, monoplegia, 51, 393)
-    marcar(c, tetraparesia, 149, 392)
-    marcar(c, amputacao, 240, 393)
+    marcar(c, monoplegia, 57, 393)
+    marcar(c, tetraparesia, 155, 394)
+    marcar(c, amputacao, 244, 394)
 
-    marcar(c, exame_ressonancia, 54, 181)
-    texto(c, crm_ressonancia, 319, 179)
-    texto(c, data_ressonancia, 462, 182)
+    marcar(c, exame_ressonancia, 57, 181)
+    texto(c, crm_ressonancia, 324, 179)
+    texto(c, data_ressonancia, 467, 182)
 
-    marcar(c, exame_eletroneuromiografia, 52, 150)
-    texto(c, crm_eletroneuromiografia, 316, 151)
-    texto(c, data_eletroneuromiografia, 460, 151)
+    marcar(c, exame_eletroneuromiografia, 57, 150)
+    texto(c, crm_eletroneuromiografia, 321, 151)
+    texto(c, data_eletroneuromiografia, 465, 151)
 
-    marcar(c, exame_cinefuncional, 51, 121)
-    texto(c, crm_cinefuncional, 316, 122)
-    texto(c, data_cinefuncional, 461, 123)
+    marcar(c, exame_cinefuncional, 57, 122)
+    texto(c, crm_cinefuncional, 321, 122)
+    texto(c, data_cinefuncional, 466, 123)
 
-    marcar(c, exame_radiografia, 53, 94)
-    texto(c, crm_radiografia, 315, 94)
-    texto(c, data_radiografia, 461, 92)
+    marcar(c, exame_radiografia, 58, 94)
+    texto(c, crm_radiografia, 316, 94)
+    texto(c, data_radiografia, 466, 92)
 
-    marcar(c, exame_cobb, 53, 70)
-    texto(c, crm_cobb, 317, 64)
-    texto(c, data_cobb, 461, 64)
+    marcar(c, exame_cobb, 58, 70)
+    texto(c, crm_cobb, 322, 64)
+    texto(c, data_cobb, 466, 64)
 
     c.showPage()
 
