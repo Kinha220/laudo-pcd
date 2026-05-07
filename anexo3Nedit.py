@@ -12,7 +12,7 @@ st.title("📄 Gerador Anexo III - PDF não editável")
 # FORMULÁRIO
 # =========================
 
-with st.expander("1. Identificação", expanded=True):
+with st.expander("1. Identificação"):
     data_emissao = st.text_input("Data de emissão", placeholder="20/02/26")
     nome = st.text_input("Nome")
     cpf = st.text_input("CPF")
@@ -25,7 +25,7 @@ with st.expander("1. Identificação", expanded=True):
     responsavel_legal = st.text_input("Responsável legal")
     sexo = st.radio("Sexo", [ "Masculino", "Feminino"], horizontal=True)
 
-with st.expander("2. Laudo pericial", expanded=True):
+with st.expander("2. Laudo pericial"):
     cid_fisica = st.text_input("CID - Deficiência Física")
     sequelas_fisica = st.text_input("Sequelas - Deficiência Física")
     cid_visual = st.text_input("CID - Deficiência Visual")
@@ -211,11 +211,6 @@ if st.button("Gerar PDF fixo"):
     texto(c, cid_visual, 201, 432)
     texto(c, sequelas_visual, 372, 432)
 
-    marcar(c, segmento_cabeca, 183, 376)
-    marcar(c, segmento_pescoco, 265, 376)
-    marcar(c, segmento_tronco, 335, 376)
-    marcar(c, segmento_membros_inferiores, 415, 376)
-
     marcar(c, lado_superior_esquerdo, 182, 373)
     marcar(c, lado_superior_direito, 265, 373)
     marcar(c, lado_inferior_esquerdo, 335, 373)
@@ -241,11 +236,11 @@ if st.button("Gerar PDF fixo"):
     texto(c, nome, 55, 742)
     texto(c, cpf, 384, 742)
 
-    marcar(c, segmento_cabeca, 55, 635)
-    marcar(c, segmento_pescoco, 154, 635)
-    marcar(c, segmento_tronco, 235, 635)
-    marcar(c, segmento_membros_inferiores, 307, 635)
-    marcar(c, segmento_membros_superiores, 430, 635)
+    marcar(c, segmento_cabeca, 57, 634)
+    marcar(c, segmento_pescoco, 155, 634)
+    marcar(c, segmento_tronco, 235, 634)
+    marcar(c, segmento_membros_inferiores, 307, 634)
+    marcar(c, segmento_membros_superiores, 430, 634)
 
     marcar(c, chk_c, 54, 530)
     marcar(c, chk_d, 76, 530)
