@@ -6,7 +6,7 @@ from reportlab.lib.pagesizes import A4
 import textwrap
 import streamlit as st
 def main():
-    st.set_page_config(page_title="Anexo III - PDF Fixo", layout="centered")
+
     st.title("📄 Gerador de PDF do Anexo III")
 
     # =========================
