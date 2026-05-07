@@ -338,12 +338,14 @@ if st.button("Gerar PDF fixo"):
     texto(c, crm_extra_2, 315, 668)
     texto(c, data_extra_2, 461, 667,14)
 
-    texto(c, medico_assinatura_1, 62, 517)
-    texto(c, medico_assinatura_2, 60, 476)
-    texto(c, unidade_credenciada, 57, 432)
-    texto(c, responsavel_credenciada, 56, 397)
-    texto(c, especialidade_assinatura_1, 116, 347)
-    texto(c, especialidade_assinatura_2, 389, 344)
+    texto(c, medico_assinatura_1, 60, 517)
+    texto(c, especialidade_assinatura_1, 60, 477)
+    texto(c, medico_assinatura_2, 60, 435)
+    texto(c, especialidade_assinatura_2, 60, 396)
+    texto(c, unidade_credenciada, 60, 362)
+    texto(c, cnpj_credenciada, 388, 367)
+    texto(c, responsavel_credenciada, 115, 345)
+    texto(c, cpf_credenciada, 388, 345)
 
     c.save()
     packet.seek(0)
@@ -370,6 +372,6 @@ if st.button("Gerar PDF fixo"):
     st.download_button(
         "📥 Baixar PDF fixo preenchido",
         data=output,
-        file_name="anexo3_fixo_preenchido.pdf",
+        file_name=f"anexo_III_{nome}.pdf",
         mime="application/pdf"
     )
