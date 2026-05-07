@@ -29,11 +29,11 @@ with st.expander("2. Laudo pericial", expanded=True):
     sequelas_fisica = st.text_input("Sequelas - Deficiência Física")
     cid_visual = st.text_input("CID - Deficiência Visual")
     sequelas_visual = st.text_input("Sequelas - Deficiência Visual")
-    limitacao_movimentos = st.text_input("Limitação dos movimentos")
     lado_superior_esquerdo = st.checkbox("Superior esquerdo")
     lado_superior_direito = st.checkbox("Superior direito")
     lado_inferior_esquerdo = st.checkbox("Inferior esquerdo")
     lado_inferior_direito = st.checkbox("Inferior direito")
+    limitacao_movimentos = st.text_input("Limitação dos movimentos")
     decorrente_de = st.text_area("Decorrente de")
 
 with st.expander("3. Médicos e unidade emissora"):
@@ -203,7 +203,7 @@ if st.button("Gerar PDF fixo"):
     marcar(c, lado_superior_direito, 265, 373)
     marcar(c, lado_inferior_esquerdo, 335, 373)
     marcar(c, lado_inferior_direito, 413, 373)
-    texto(c, limitacao_movimentos, 143, 357)
+    texto(c, limitacao_movimentos, 140, 363)
     texto(c, decorrente_de, 60, 325)
     texto(c, medico_1, 60, 277)
     texto(c, medico_2, 60, 236)
