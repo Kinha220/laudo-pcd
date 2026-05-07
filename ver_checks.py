@@ -12,8 +12,10 @@ def marcar_checkbox_por_opcao(writer, opcao_yes, marcado):
         if "/Annots" in page:
             for annot in page["/Annots"]:
                 obj = annot.get_object()
+
                 if "/AP" in obj and "/N" in obj["/AP"]:
                     opcoes = list(obj["/AP"]["/N"].keys())
+
                     if opcao_yes in opcoes:
                         obj.update({
                             NameObject("/AS"): NameObject(opcao_yes if marcado else "/Off")
@@ -31,6 +33,7 @@ with st.expander("1. Identificação", expanded=True):
     mae = st.text_input("Mãe")
     pai = st.text_input("Pai")
     responsavel_legal = st.text_input("Responsável legal")
+
     sexo = st.radio("Sexo", ["Não marcar", "Masculino", "Feminino"], horizontal=True)
 
 with st.expander("2. Laudo pericial", expanded=True):
@@ -60,34 +63,6 @@ with st.expander("4. Deficiência física"):
     segmento_tronco = st.checkbox("Tronco")
     segmento_membros_inferiores = st.checkbox("Membros Inferiores")
     segmento_membros_superiores = st.checkbox("Membros Superiores")
-
-    st.subheader("Letras do enquadramento")
-    col1, col2, col3, col4 = st.columns(4)
-
-    with col1:
-        chk_c = st.checkbox("C")
-        chk_d = st.checkbox("D")
-        chk_e = st.checkbox("E")
-        chk_f = st.checkbox("F")
-
-    with col2:
-        chk_g = st.checkbox("G")
-        chk_h = st.checkbox("H")
-        chk_i = st.checkbox("I")
-        chk_j = st.checkbox("J")
-
-    with col3:
-        chk_k = st.checkbox("K")
-        chk_l = st.checkbox("L")
-        chk_m = st.checkbox("M")
-        chk_n = st.checkbox("N")
-
-    with col4:
-        chk_o = st.checkbox("O")
-        chk_p = st.checkbox("P")
-        chk_q = st.checkbox("Q")
-        chk_r = st.checkbox("R")
-        chk_s = st.checkbox("S")
 
     st.subheader("Formas apresentadas")
     paraplegia = st.checkbox("Paraplegia")
@@ -232,35 +207,21 @@ if st.button("Gerar PDF"):
     for page in writer.pages:
         writer.update_page_form_field_values(page, campos)
 
+    # Sexo
     marcar_checkbox_por_opcao(writer, "/Yes_yzh", sexo == "Masculino")
     marcar_checkbox_por_opcao(writer, "/Yes_kcbz", sexo == "Feminino")
 
+    # Página 2 - segmentos
     marcar_checkbox_por_opcao(writer, "/Yes_hxqo", segmento_cabeca)
     marcar_checkbox_por_opcao(writer, "/Yes_pnwq", segmento_pescoco)
     marcar_checkbox_por_opcao(writer, "/Yes_xfmy", segmento_tronco)
     marcar_checkbox_por_opcao(writer, "/Yes_orru", segmento_membros_inferiores)
     marcar_checkbox_por_opcao(writer, "/Yes_oyxh", segmento_membros_superiores)
 
-    marcar_checkbox_por_opcao(writer, "/Yes_ygdz", chk_c)
-    marcar_checkbox_por_opcao(writer, "/Yes_nntj", chk_d)
-    marcar_checkbox_por_opcao(writer, "/Yes_rlty", chk_e)
-    marcar_checkbox_por_opcao(writer, "/Yes_gfis", chk_f)
-    marcar_checkbox_por_opcao(writer, "/Yes_pven", chk_g)
-    marcar_checkbox_por_opcao(writer, "/Yes_ttlb", chk_h)
-    marcar_checkbox_por_opcao(writer, "/Yes_ynfs", chk_i)
-    marcar_checkbox_por_opcao(writer, "/Yes_uoov", chk_j)
-    marcar_checkbox_por_opcao(writer, "/Yes_ppwl", chk_k)
-    marcar_checkbox_por_opcao(writer, "/Yes_kwxm", chk_l)
-    marcar_checkbox_por_opcao(writer, "/Yes_mazr", chk_m)
-    marcar_checkbox_por_opcao(writer, "/Yes_rbtz", chk_n)
-    marcar_checkbox_por_opcao(writer, "/Yes_tpkq", chk_o)
-    marcar_checkbox_por_opcao(writer, "/Yes_hjew", chk_p)
-    marcar_checkbox_por_opcao(writer, "/Yes_krok", chk_q)
-    marcar_checkbox_por_opcao(writer, "/Yes_unhh", chk_r)
-    marcar_checkbox_por_opcao(writer, "/Yes_vblt", chk_s)
-
+    # Outra especificação
     marcar_checkbox_por_opcao(writer, "/Yes_rdo", bool(outra_especificacao.strip()))
 
+    # Formas apresentadas
     marcar_checkbox_por_opcao(writer, "/Yes_wunf", paraplegia)
     marcar_checkbox_por_opcao(writer, "/Yes_jkck", monoparesia)
     marcar_checkbox_por_opcao(writer, "/Yes_cbkm", triplegia)
@@ -277,16 +238,19 @@ if st.button("Gerar PDF"):
     marcar_checkbox_por_opcao(writer, "/Yes_nvgd", tetraparesia)
     marcar_checkbox_por_opcao(writer, "/Yes_abuj", amputacao)
 
+    # Exames página 2
     marcar_checkbox_por_opcao(writer, "/Yes_qati", exame_ressonancia)
     marcar_checkbox_por_opcao(writer, "/Yes_gryq", exame_eletroneuromiografia)
     marcar_checkbox_por_opcao(writer, "/Yes_htrw", exame_cinefuncional)
     marcar_checkbox_por_opcao(writer, "/Yes_ouuu", exame_radiografia)
     marcar_checkbox_por_opcao(writer, "/Yes_gkhr", exame_cobb)
 
+    # Exames página 3
     marcar_checkbox_por_opcao(writer, "/Yes_spiz", exame_tomografia)
     marcar_checkbox_por_opcao(writer, "/Yes_qdfh", exame_anatomopatologico)
     marcar_checkbox_por_opcao(writer, "/Yes_cawl", exame_medico_assistente)
     marcar_checkbox_por_opcao(writer, "/Yes_qegw", exame_extra_1_check)
+    marcar_checkbox_por_opcao(writer, "/Yes_qegw", exame_extra_2_check)
 
     output = BytesIO()
     writer.write(output)
