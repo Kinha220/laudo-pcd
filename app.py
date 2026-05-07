@@ -14,6 +14,7 @@ def carregar_css():
     with open("style.css", encoding="utf-8") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+SENHA_APP = "laudo2026"
 
 def check_login():
     if "logado" not in st.session_state:
@@ -24,7 +25,7 @@ def check_login():
         senha = st.text_input("Digite a senha", type="password")
 
         if st.button("Entrar"):
-            if senha == st.secrets["SENHA"]:
+            if senha == SENHA_APP:
                 st.session_state.logado = True
                 st.rerun()
             else:
@@ -33,17 +34,12 @@ def check_login():
         st.stop()
 
 
-carregar_css()
 check_login()
 
-st.markdown("""
-<div class="app-header">
-    <div class="app-title">📄 Gerador de Laudo PCD</div>
-    <div class="app-subtitle">
-        Sistema online para preenchimento automático dos formulários para PCD.
-    </div>
-</div>
-""", unsafe_allow_html=True)
+
+
+st.set_page_config(page_title="Laudo PC", layout="centered")
+st.title("📄 Gerador de PDF de Laudo PCD")
 
 
 def somente_numeros(valor):
@@ -180,163 +176,144 @@ def marcar_carater_visual(writer, carater):
     writer.pages[0].merge_page(overlay.pages[0])
 
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">1. Serviço Médico</div>', unsafe_allow_html=True)
+with st.expander("1. Serviço Médico"):
 
-servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
+    servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
 
-cnpj = st.text_input(
-    "CNPJ",
-    key="cnpj",
-    on_change=atualizar_cnpj,
-    args=("cnpj",)
-)
+    cnpj = st.text_input(
+        "CNPJ",
+        key="cnpj",
+        on_change=atualizar_cnpj,
+        args=("cnpj",)
+    )
 
-data = st.text_input(
-    "Data",
-    key="data",
-    on_change=atualizar_data,
-    args=("data",)
-)
+    data = st.text_input(
+        "Data",
+        key="data",
+        on_change=atualizar_data,
+        args=("data",)
+    )
 
-tipo_servico = st.selectbox(
-    "Serviço médico prestado por:",
-    [
-        "pelo Departamento de Trânsito (Detran)",
-        "por setor privado credenciado pelo Detran",
-        "pelo serviço público de saúde",
-        "por setor privado que integra o Sistema Único de Saúde (SUS)",
-        "pelo serviço social autônomo",
-    ],
-)
+    tipo_servico = st.selectbox(
+        "Serviço médico prestado por:",
+        [
+            "pelo Departamento de Trânsito (Detran)",
+            "por setor privado credenciado pelo Detran",
+            "pelo serviço público de saúde",
+            "por setor privado que integra o Sistema Único de Saúde (SUS)",
+            "pelo serviço social autônomo",
+        ],
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+with st.expander("2. Identificação do Requerente"):
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">2. Identificação do Requerente</div>', unsafe_allow_html=True)
+    nome_requerente = st.text_input("Nome")
 
-nome_requerente = st.text_input("Nome")
+    cpf_requerente = st.text_input(
+        "CPF",
+        key="cpf_requerente",
+        on_change=atualizar_cpf,
+        args=("cpf_requerente",)
+    )
 
-cpf_requerente = st.text_input(
-    "CPF",
-    key="cpf_requerente",
-    on_change=atualizar_cpf,
-    args=("cpf_requerente",)
-)
+with st.expander("3. Laudo de Avaliação"):
 
-st.markdown('</div>', unsafe_allow_html=True)
+    cid_fisica = st.text_input(
+        "CID - Deficiência Física (*)",
+        placeholder="Ex: M75.2; M75.5; M25.5"
+    )
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">3. Laudo de Avaliação</div>', unsafe_allow_html=True)
+    cid_visual = st.text_input(
+        "CID - Deficiência Visual/Auditiva (*)"
+    )
 
-cid_fisica = st.text_input(
-    "CID - Deficiência Física (*)",
-    placeholder="Ex: M75.2; M75.5; M25.5"
-)
+    carater = st.radio(
+        "Caráter da deficiência",
+        ["Provisória", "Permanente"],
+        horizontal=True,
+    )
 
-cid_visual = st.text_input(
-    "CID - Deficiência Visual/Auditiva (*)"
-)
+    descricao = st.text_area(
+        "Descrição detalhada da deficiência",
+        height=220
+    )
 
-carater = st.radio(
-    "Caráter da deficiência",
-    ["Provisória", "Permanente"],
-    horizontal=True,
-)
+with st.expander("4. Assinaturas"):
 
-descricao = st.text_area(
-    "Descrição detalhada da deficiência",
-    height=220
-)
+    nome_medico = st.text_input("Nome do médico")
+    assinatura_medico = st.text_input("Assinatura do médico")
+    responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
+    assinatura_responsavel_servico = st.text_input(
+        "Assinatura do responsável pelo serviço médico"
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+with st.expander("5. Informações Complementares"):
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">4. Assinaturas</div>', unsafe_allow_html=True)
+    tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
+    tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
 
-nome_medico = st.text_input("Nome do médico")
-assinatura_medico = st.text_input("Assinatura do médico")
-responsavel_servico = st.text_input("Nome do responsável pelo serviço médico")
-assinatura_responsavel_servico = st.text_input(
-    "Assinatura do responsável pelo serviço médico"
-)
+    segmentos = st.multiselect(
+        "Segmentos afetados",
+        ["Cabeça", "Pescoço", "Tronco", "Membros Inferiores", "Membros Superiores"],
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    formas = st.multiselect(
+        "Forma da deficiência física",
+        [
+            "Paraplegia",
+            "Monoparesia",
+            "Triplegia",
+            "Hemiparesia",
+            "Paralisia Cerebral",
+            "Paraparesia",
+            "Tetraplegia",
+            "Triparesia",
+            "Ostomia",
+            "Nanismo",
+            "Monoplegia",
+            "Tetraparesia",
+            "Hemiplegia",
+            "Amputação ou Ausência de Membro",
+            "Deformidade congênita/adquirida",
+        ],
+    )
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">5. Informações Complementares</div>', unsafe_allow_html=True)
+    condicoes = st.multiselect(
+        "Condições visual/auditiva",
+        [
+            "Acuidade visual / campo visual",
+            "Perda auditiva bilateral",
+        ],
+    )
 
-tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
-tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
+with st.expander("6. Assinatura Final"):
+    cpf_medico = st.text_input(
+        "CPF do médico",
+        key="cpf_medico",
+        on_change=atualizar_cpf,
+        args=("cpf_medico",)
+    )
 
-segmentos = st.multiselect(
-    "Segmentos afetados",
-    ["Cabeça", "Pescoço", "Tronco", "Membros Inferiores", "Membros Superiores"],
-)
+    especialidade = st.text_input("Especialidade")
 
-formas = st.multiselect(
-    "Forma da deficiência física",
-    [
-        "Paraplegia",
-        "Monoparesia",
-        "Triplegia",
-        "Hemiparesia",
-        "Paralisia Cerebral",
-        "Paraparesia",
-        "Tetraplegia",
-        "Triparesia",
-        "Ostomia",
-        "Nanismo",
-        "Monoplegia",
-        "Tetraparesia",
-        "Hemiplegia",
-        "Amputação ou Ausência de Membro",
-        "Deformidade congênita/adquirida",
-    ],
-)
+    unidade = st.text_input("Unidade Emissora do Laudo", value=servico_medico)
 
-condicoes = st.multiselect(
-    "Condições visual/auditiva",
-    [
-        "Acuidade visual / campo visual",
-        "Perda auditiva bilateral",
-    ],
-)
+    cnpj_unidade = st.text_input(
+        "CNPJ da Unidade",
+        key="cnpj_unidade",
+        value=cnpj,
+        on_change=atualizar_cnpj,
+        args=("cnpj_unidade",)
+    )
 
-st.markdown('</div>', unsafe_allow_html=True)
+    responsavel_unidade = st.text_input("Responsável pela Unidade")
 
-st.markdown('<div class="section-card">', unsafe_allow_html=True)
-st.markdown('<div class="section-title">6. Assinatura Final</div>', unsafe_allow_html=True)
-
-cpf_medico = st.text_input(
-    "CPF do médico",
-    key="cpf_medico",
-    on_change=atualizar_cpf,
-    args=("cpf_medico",)
-)
-
-especialidade = st.text_input("Especialidade")
-
-unidade = st.text_input("Unidade Emissora do Laudo", value=servico_medico)
-
-cnpj_unidade = st.text_input(
-    "CNPJ da Unidade",
-    key="cnpj_unidade",
-    value=cnpj,
-    on_change=atualizar_cnpj,
-    args=("cnpj_unidade",)
-)
-
-responsavel_unidade = st.text_input("Responsável pela Unidade")
-
-cpf_responsavel_unidade = st.text_input(
-    "CPF do Responsável pela Unidade",
-    key="cpf_responsavel_unidade",
-    on_change=atualizar_cpf,
-    args=("cpf_responsavel_unidade",)
-)
-
-st.markdown('</div>', unsafe_allow_html=True)
+    cpf_responsavel_unidade = st.text_input(
+        "CPF do Responsável pela Unidade",
+        key="cpf_responsavel_unidade",
+        on_change=atualizar_cpf,
+        args=("cpf_responsavel_unidade",)
+    )
 
 
 if st.button("Gerar PDF"):

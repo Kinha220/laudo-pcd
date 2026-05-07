@@ -75,3 +75,43 @@ div[data-testid="stTextArea"] textarea {
     border-radius: 12px;
     font-weight: 800;
 }
+/* LABELS */
+
+.stTextInput label,
+.stTextArea label,
+.stSelectbox label,
+.stMultiSelect label,
+.stDateInput label,
+.stRadio label,
+.stCheckbox label {
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    color: #1f2937 !important;
+    margin-bottom: 6px !important;
+}
+
+/* INPUTS */
+
+.stTextInput input,
+.stTextArea textarea {
+    border-radius: 12px !important;
+    border: 1px solid #d1d5db !important;
+    padding: 12px !important;
+    font-size: 15px !important;
+    background: white !important;
+}
+
+/* EXPANDER */
+
+.streamlit-expanderHeader {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #111827 !important;
+}
+
+/* REMOVE FLOATING */
+
+[data-testid="stWidgetLabel"] {
+    position: relative !important;
+    top: unset !important;
+}
