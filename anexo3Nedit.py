@@ -291,24 +291,24 @@ if st.button("Gerar PDF fixo"):
     marcar(c, amputacao, 244, 394)
 
     marcar(c, exame_ressonancia, 57, 181)
-    texto(c, crm_ressonancia, 324, 179)
-    texto(c, data_ressonancia, 467, 182)
+    texto(c, crm_ressonancia, 315, 179)
+    texto(c, data_ressonancia, 460, 179,14)
 
     marcar(c, exame_eletroneuromiografia, 57, 150)
-    texto(c, crm_eletroneuromiografia, 321, 151)
-    texto(c, data_eletroneuromiografia, 465, 151)
+    texto(c, crm_eletroneuromiografia, 315, 151)
+    texto(c, data_eletroneuromiografia, 460, 151,14)
 
     marcar(c, exame_cinefuncional, 57, 122)
-    texto(c, crm_cinefuncional, 321, 122)
-    texto(c, data_cinefuncional, 466, 123)
+    texto(c, crm_cinefuncional, 315, 122)
+    texto(c, data_cinefuncional, 461, 121,14)
 
     marcar(c, exame_radiografia, 57, 94)
-    texto(c, crm_radiografia, 312, 94)
-    texto(c, data_radiografia, 466, 92)
+    texto(c, crm_radiografia, 315, 94)
+    texto(c, data_radiografia, 461, 92,14)
 
     marcar(c, exame_cobb, 57, 70)
-    texto(c, crm_cobb, 322, 64)
-    texto(c, data_cobb, 466, 64)
+    texto(c, crm_cobb, 315, 64)
+    texto(c, data_cobb, 461, 64,14)
 
     c.showPage()
 
@@ -316,26 +316,27 @@ if st.button("Gerar PDF fixo"):
     # PÁGINA 3
     # =========================
 
-    marcar(c, exame_tomografia, 57, 787)
-    texto(c, crm_tomografia, 316, 787)
-    texto(c, data_tomografia, 461, 787)
+    marcar(c, exame_tomografia, 57, 783)
+    texto(c, crm_tomografia, 315, 783)
+    texto(c, data_tomografia, 461, 783,14)
 
-    marcar(c, exame_anatomopatologico, 57, 756)
-    texto(c, crm_anatomopatologico, 318, 759)
-    texto(c, data_anatomopatologico, 461, 758)
+    marcar(c, exame_anatomopatologico, 57, 754)
+    texto(c, crm_anatomopatologico, 315, 754)
+    texto(c, data_anatomopatologico, 461, 754,14)
 
-    marcar(c, exame_medico_assistente, 58, 727)
-    texto(c, crm_medico_assistente, 316, 730)
-    texto(c, data_medico_assistente, 462, 726)
+    marcar(c, exame_medico_assistente, 57, 725)
+    texto(c, crm_medico_assistente, 315, 725)
+    texto(c, data_medico_assistente, 461, 725,14)
 
-    marcar(c, exame_extra_1_check, 58, 703)
-    texto(c, exame_extra_1, 65, 700)
-    texto(c, crm_extra_1, 312, 700)
-    texto(c, data_extra_1, 460, 695)
+    marcar(c, exame_extra_1_check, 57, 695)
+    texto(c, exame_extra_1, 67, 695)
+    texto(c, crm_extra_1, 315, 695)
+    texto(c, data_extra_1, 461, 695,14)
 
-    texto(c, exame_extra_2, 64, 670)
-    texto(c, crm_extra_2, 314, 673)
-    texto(c, data_extra_2, 462, 668)
+    marcar(c, exame_extra_2_check, 56, 668)
+    texto(c, exame_extra_2, 67, 668)
+    texto(c, crm_extra_2, 315, 668)
+    texto(c, data_extra_2, 461, 667,14)
 
     texto(c, medico_assinatura_1, 62, 517)
     texto(c, medico_assinatura_2, 60, 476)
