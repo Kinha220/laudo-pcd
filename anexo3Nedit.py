@@ -306,7 +306,7 @@ if st.button("Gerar PDF fixo"):
     texto(c, crm_radiografia, 312, 94)
     texto(c, data_radiografia, 466, 92)
 
-    marcar(c, exame_cobb, 58, 70)
+    marcar(c, exame_cobb, 57, 70)
     texto(c, crm_cobb, 322, 64)
     texto(c, data_cobb, 466, 64)
 
@@ -316,7 +316,7 @@ if st.button("Gerar PDF fixo"):
     # PÁGINA 3
     # =========================
 
-    marcar(c, exame_tomografia, 57, 785)
+    marcar(c, exame_tomografia, 57, 787)
     texto(c, crm_tomografia, 316, 787)
     texto(c, data_tomografia, 461, 787)
 
