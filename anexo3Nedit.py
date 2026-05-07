@@ -221,6 +221,7 @@ if st.button("Gerar PDF fixo"):
     marcar(c, lado_inferior_esquerdo, 335, 373)
     marcar(c, lado_inferior_direito, 413, 373)
     texto(c, limitacao_movimentos, 140, 363)
+    
     texto_multilinha(c, decorrente_de, 58, 332, largura=110, tamanho=11, espacamento=6,max_linhas=5 )
     texto(c, medico_1, 60, 277)
     texto(c, especialidade_1, 60, 236)
