@@ -3,6 +3,7 @@ from io import BytesIO
 from pypdf import PdfReader, PdfWriter
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
+import textwrap
 
 st.set_page_config(page_title="Anexo III - PDF Fixo", layout="centered")
 st.title("📄 Gerador Anexo III - PDF não editável")
@@ -164,6 +165,22 @@ def texto(c, valor, x, y, tamanho=8):
         c.setFont("Helvetica", tamanho)
         c.drawString(x, y, str(valor))
 
+def texto_multilinha(c, valor, x, y, largura=9000, tamanho=5, espacamento=6, max_linhas=6):
+    if valor:
+        c.setFont("Helvetica", tamanho)
+
+        linhas = textwrap.wrap(
+            str(valor),
+            width=largura,
+            break_long_words=True,
+            break_on_hyphens=False
+        )
+
+        linhas = linhas[:max_linhas]
+
+        for linha in linhas:
+            c.drawString(x, y, linha)
+            y -= espacamento
 
 if st.button("Gerar PDF fixo"):
 
@@ -204,13 +221,15 @@ if st.button("Gerar PDF fixo"):
     marcar(c, lado_inferior_esquerdo, 335, 373)
     marcar(c, lado_inferior_direito, 413, 373)
     texto(c, limitacao_movimentos, 140, 363)
-    texto(c, decorrente_de, 60, 325)
+    texto_multilinha(c, decorrente_de, 58, 332, largura=110, tamanho=11, espacamento=6,max_linhas=5 )
     texto(c, medico_1, 60, 277)
-    texto(c, medico_2, 60, 236)
-    texto(c, unidade_emissora, 58, 196)
-    texto(c, responsavel_unidade, 58, 156)
-    texto(c, especialidade_1, 329, 117)
-    texto(c, especialidade_2, 331, 79)
+    texto(c, especialidade_1, 60, 236)
+    texto(c, medico_2, 60, 196)
+    texto(c, especialidade_2, 60, 156)
+    texto(c, unidade_emissora, 58, 117)
+    texto(c, cnpj_unidade, 330, 117)
+    texto(c, responsavel_unidade, 58, 78)
+    texto(c, cpf_responsavel, 330, 78)
 
     c.showPage()
 
