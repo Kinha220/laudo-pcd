@@ -176,7 +176,7 @@ def marcar_carater_visual(writer, carater):
     writer.pages[0].merge_page(overlay.pages[0])
 
 
-with st.expander("1. Serviço Médico"):
+with st.expander("1. Serviço Médico", expanded=False):
 
     servico_medico = st.text_input("Serviço Médico / Unidade de Saúde")
 
@@ -205,7 +205,7 @@ with st.expander("1. Serviço Médico"):
         ],
     )
 
-with st.expander("2. Identificação do Requerente"):
+with st.expander("2. Identificação do Requerente", expanded=False):
 
     nome_requerente = st.text_input("Nome")
 
@@ -238,7 +238,7 @@ with st.expander("3. Laudo de Avaliação"):
         height=220
     )
 
-with st.expander("4. Assinaturas"):
+with st.expander("4. Assinaturas", expanded=False):
 
     nome_medico = st.text_input("Nome do médico")
     assinatura_medico = st.text_input("Assinatura do médico")
@@ -247,7 +247,7 @@ with st.expander("4. Assinaturas"):
         "Assinatura do responsável pelo serviço médico"
     )
 
-with st.expander("5. Informações Complementares"):
+with st.expander("5. Informações Complementares", expanded=False):
 
     tem_def_fisica = st.checkbox("Pessoa com Deficiência Física")
     tem_def_visual = st.checkbox("Pessoa com Deficiência Visual/Auditiva")
@@ -286,7 +286,7 @@ with st.expander("5. Informações Complementares"):
         ],
     )
 
-with st.expander("6. Assinatura Final"):
+with st.expander("6. Assinatura Final", expanded=False):
     cpf_medico = st.text_input(
         "CPF do médico",
         key="cpf_medico",

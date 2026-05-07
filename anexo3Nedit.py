@@ -12,7 +12,7 @@ st.title("📄 Gerador de PDF do Anexo III")
 # FORMULÁRIO
 # =========================
 
-with st.expander("1. Identificação"):
+with st.expander("1. Identificação", expanded=False):
     data_emissao = st.text_input("Data de emissão", placeholder="20/02/26")
     nome = st.text_input("Nome")
     cpf = st.text_input("CPF")
@@ -25,7 +25,7 @@ with st.expander("1. Identificação"):
     responsavel_legal = st.text_input("Responsável legal")
     sexo = st.radio("Sexo", [ "Masculino", "Feminino"], horizontal=True)
 
-with st.expander("2. Laudo pericial"):
+with st.expander("2. Laudo pericial", expanded=False):
     cid_fisica = st.text_input("CID - Deficiência Física")
     sequelas_fisica = st.text_input("Sequelas - Deficiência Física")
     cid_visual = st.text_input("CID - Deficiência Visual")
@@ -37,7 +37,7 @@ with st.expander("2. Laudo pericial"):
     limitacao_movimentos = st.text_input("Limitação dos movimentos")
     decorrente_de = st.text_area("Decorrente de")
 
-with st.expander("3. Médicos e unidade emissora"):
+with st.expander("3. Médicos e unidade emissora", expanded=False):
     medico_1 = st.text_input("Nome do Médico 1")
     especialidade_1 = st.text_input("Especialidade 1")
     medico_2 = st.text_input("Nome do Médico 2")
@@ -47,7 +47,7 @@ with st.expander("3. Médicos e unidade emissora"):
     responsavel_unidade = st.text_input("Responsável da Unidade")
     cpf_responsavel = st.text_input("CPF do Responsável")
 
-with st.expander("4. Deficiência física"):
+with st.expander("4. Deficiência física", expanded=False):
     outra_especificacao = st.text_input("Outra especificação")
 
     st.subheader("Segmentos acometidos")
