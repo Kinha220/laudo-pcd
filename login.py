@@ -51,14 +51,11 @@ if not st.session_state.logado:
 st.markdown("""
 <div class="app-header">
     <div class="app-title">📄 Sistema de Laudos PCD</div>
-    <div class="app-subtitle">
-        Escolha abaixo qual formulário deseja preencher.
-    </div>
 </div>
 """, unsafe_allow_html=True)
 
 opcao = st.selectbox(
-    "Selecione o formulário",
+    "Selecione o formulário desejado",
     [
         "Selecione...",
         "📘 Anexo Único",

@@ -18,7 +18,7 @@ def main():
             st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
     st.set_page_config(page_title="Laudo PC", layout="centered")
-    st.title("📄 Gerador de PDF de Laudo PCD")
+    st.title("📄 Anexo único")
 
 
     def somente_numeros(valor):

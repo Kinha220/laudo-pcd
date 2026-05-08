@@ -7,7 +7,7 @@ import textwrap
 import streamlit as st
 def main():
 
-    st.title("📄 Gerador de PDF do Anexo III")
+    st.title("📄 Anexo III")
 
     # =========================
     # FORMULÁRIO
