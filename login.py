@@ -43,7 +43,7 @@ if not st.session_state.logado:
 
     st.stop()
     
-    check_login()
+    # check_login()
 # =========================
 # HOME
 # =========================
